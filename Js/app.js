@@ -4,7 +4,7 @@ $(document).ready(function () {
     $('form').submit(function (event) {
         event.preventDefault();
         $.ajax({
-            url: '/damage_mechs/Controller.php',
+            url: '/Controller.php',
             type: 'post',
             data: $('form#form-data').serialize(),
             dataType: 'json',

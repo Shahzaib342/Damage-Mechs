@@ -31,23 +31,6 @@
                             <div class="column is-half">
                                 <div class="field">
                                     <div class="control">
-                                        <input class="input" type="text" placeholder="PWHT" name="PWHT">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <div class="field">
-                                    <div class="control">
-                                        <input class="input" type="text" placeholder="Thickness(Inches)"
-                                               name="thickness">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="columns">
-                            <div class="column is-half">
-                                <div class="field">
-                                    <div class="control">
                                         <input class="input" type="text" placeholder="Years in service"
                                                name="years-in-service">
                                     </div>
@@ -56,25 +39,8 @@
                             <div class="column">
                                 <div class="field">
                                     <div class="control">
-                                        <input class="input" type="text" placeholder="Ext-Coating" name="Ext-Coating">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="columns">
-                            <div class="column is-half">
-                                <div class="field">
-                                    <div class="control">
-                                        <input class="input" type="text" placeholder="Insulation / Fire Proofing"
-                                               name="insulation-or-fire-proofing">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <div class="field">
-                                    <div class="control">
-                                        <input class="input" type="text" placeholder="Refractory lined"
-                                               name="refractory-lined">
+                                        <input class="input" type="text" placeholder="Thickness(Inches)"
+                                               name="thickness">
                                     </div>
                                 </div>
                             </div>
@@ -97,31 +63,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="columns">
-                            <div class="column is-half">
-                                <div class="field">
-                                    <div class="control">
-                                        <input class="input" type="text" placeholder="High Dynamic loading"
-                                               name="high-dynamic-loading">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <div class="field">
-                                    <div class="control">
-                                        <input class="input" type="text" placeholder="Mat_Creep_range"
-                                               name="mat-creep-range">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="columns switch-toggles">
-                            <div class="column is-half">
+                            <div class="column is-one-quarter">
                                 <div class="field">
-                                    <div class="control">
-                                        <input class="input" type="text" placeholder="Mismatch Ajoining  Metals"
-                                               name="mismatch-ajoining-metals">
-                                    </div>
+                                    <label class="label">High Dynamic loading</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="high-dynamic-loading">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label"> Mat_Creep_range</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="mat-creep-range">
+                                        <span class="slider round"></span>
+                                    </label>
                                 </div>
                             </div>
                             <div class="column is-one-quarter">
@@ -138,6 +96,44 @@
                                     <label class="label">Amonia</label>
                                     <label class="switch">
                                         <input type="checkbox" name="amonia">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">PWHT</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="PWHT">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label"> Ext-Coating</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="Ext-Coating">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Insulation / Fire Proofing</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="insulation-or-fire-proofing">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Refractory lined</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="refractory-lined">
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -214,6 +210,17 @@
                                     <label class="label">Excessive Tensile stress</label>
                                     <label class="switch">
                                         <input type="checkbox" name="excessive-tensile-stress">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Mismatch Ajoining Metals</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="mismatch-ajoining-metals">
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
