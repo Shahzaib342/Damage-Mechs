@@ -39,7 +39,7 @@
                             <div class="column">
                                 <div class="field">
                                     <div class="control">
-                                        <input class="input" type="text" placeholder="Thickness(Inches)"
+                                        <input class="input" type="number" placeholder="Thickness(Inches)"
                                                name="thickness">
                                     </div>
                                 </div>
@@ -57,7 +57,7 @@
                             <div class="column">
                                 <div class="field">
                                     <div class="control">
-                                        <input class="input" type="text" placeholder="Temperature (Max of Process/Skin)"
+                                        <input class="input" type="number" placeholder="Temperature (Max of Process/Skin) in fahrenheit"
                                                name="temperature-max-of-process-or-skin">
                                     </div>
                                 </div>
