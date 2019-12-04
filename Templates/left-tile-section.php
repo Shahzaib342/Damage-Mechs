@@ -12,7 +12,7 @@
                                 <div class="control">
                                     <div class="select">
                                         <select id="material-type" name="material-type">
-                                            <option>Select Material Type</option>
+                                            <option value="0">Select Material Type</option>
                                         </select>
                                     </div>
                                 </div>
@@ -21,7 +21,7 @@
                                 <div class="control">
                                     <div class="select">
                                         <select id="equipment-type" name="equipment-type">
-                                            <option>Select Equipment Type</option>
+                                            <option value="0">Select Equipment Type</option>
                                         </select>
                                     </div>
                                 </div>

@@ -10,14 +10,15 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 // ... show output and ranked based on highest number of true probability
-
                 if (data.output.length < 1) {
                     $('.right-tile .content .content').empty().append('<span> No data </span>');
                 } else {
+                    data = data.output;
                     var output = '';
-                    $.each(data.output, function (index, value) {
-                        output += '<span>' + value + '</span>';
-                        output += '<progress class="progress is-primary" value="' + data.toggles.toggleCount + '" max="100">' + data.toggles.toggleCount + '%</progress>';
+                    $.each(data, function (index, value) {
+                        var percentage = (value.toggleCount / 17) * 100;
+                        output += '<span>' + value.output + '</span>';
+                        output += '<progress class="progress is-primary" value="' + percentage + '" max="100">' + percentage + '%</progress>';
                     });
 
                     $('.right-tile .content .content').empty().append(output);
