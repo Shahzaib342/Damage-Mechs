@@ -47,7 +47,7 @@
                                 <div class="field">
                                     <label class="label">Thickness(Inches)</label>
                                     <div class="control">
-                                        <input class="input" type="number" required placeholder="Thickness(Inches)"
+                                        <input class="input" type="text" required placeholder="Thickness(Inches)"
                                                name="thickness">
                                     </div>
                                 </div>

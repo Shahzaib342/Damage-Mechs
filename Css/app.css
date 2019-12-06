@@ -89,12 +89,13 @@
   background-color: #555;
 }
 .container .right-tile .content .content .content {
-  padding: 0 18px;
+  padding: 0;
   display: none;
   overflow: hidden;
 }
 .container .right-tile .content .content .content ul {
-  font-size: 11px;
+  font-size: 12px;
+  margin-left: 1em;
 }
 .container .right-tile .content .content .content ul .output-titles {
   font-weight: bold;

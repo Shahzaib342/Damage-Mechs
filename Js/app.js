@@ -183,7 +183,7 @@ $(document).ready(function () {
     //allow only positive and greater than 0 number for Thickness
     $('input[name="thickness"]').on('focusout', function () {
         $('span.error').remove();
-        if ($(this).val() <= 0) {
+        if (isNaN($(this).val()) || $(this).val() <= 0) {
             $(this).val('');
             $('input[name="thickness"]').after('<span class="error" style="color:red">value must be greater than 0</span>');
         } else {
