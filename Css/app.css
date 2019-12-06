@@ -80,10 +80,10 @@
   color: white;
   cursor: pointer;
   outline: none;
-  font-size: 10px;
   background: none !important;
   border: none;
   padding: 0 !important;
+  font-size: 1em;
 }
 .container .right-tile .content .content .collapsible:hover {
   background-color: #555;
@@ -94,7 +94,11 @@
   overflow: hidden;
 }
 .container .right-tile .content .content .content ul {
-  font-size: 10px;
+  font-size: 11px;
+}
+.container .right-tile .content .content .content ul .output-titles {
+  font-weight: bold;
+  font-style: italic;
 }
 .container .right-tile .content .content .active {
   background-color: #555;

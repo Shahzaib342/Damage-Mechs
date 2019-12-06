@@ -307,7 +307,7 @@ function processOutput($data)
     if (!in_array((int)$data['material-type'], [40, 41]) && ((int)$data['equipment-type'] != 0)) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('Cracks initiating from the surface and may also appear as craze cracks.'
+                array('Cracks initiating from the surface and may also appear as craze cracks.'
                 ), 'Inspection Method' =>
                 array('NDE-Liquid Penetrant.', 'NDE-Magnetic Particle.'
                 ), 'Prevention' =>

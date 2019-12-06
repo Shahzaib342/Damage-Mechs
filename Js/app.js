@@ -39,7 +39,7 @@ $(document).ready(function () {
                         html += '<ul style="list-style: none">';
                         $.each(val.Desc, function (k, v) {
                             html += '<li>';
-                            html += k;
+                            html += '<span class="output-titles">' + k + '</span>';
                             html += '<ul>';
                             $.each(v, function (i, j) {
                                 html += '<li>' + j + '</li>';
@@ -183,7 +183,7 @@ $(document).ready(function () {
     //allow only positive and greater than 0 number for Thickness
     $('input[name="thickness"]').on('focusout', function () {
         $('span.error').remove();
-        if ($(this).val() < 1) {
+        if ($(this).val() <= 0) {
             $(this).val('');
             $('input[name="thickness"]').after('<span class="error" style="color:red">value must be greater than 0</span>');
         } else {
