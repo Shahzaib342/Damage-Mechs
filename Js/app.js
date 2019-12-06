@@ -13,15 +13,27 @@ $(document).ready(function () {
                 if (data.output.outputs.length < 1) {
                     $('.right-tile .content .content').empty().append('<span> No data </span>');
                 } else {
+                    singleLineArray = [];
                     maximumCorrectedInputs = data.output.maximumCorrectedInputs;
-                    var output = '';
                     $.each(data.output.outputs, function (index, value) {
-                        var percentage = (value.correctedInputs / maximumCorrectedInputs) * 100;
-                        output += '<span>' + value.output + '</span>';
-                        output += '<progress class="progress is-primary" value="' + percentage + '" max="100">' + percentage + '%</progress>';
+                        var Obj = {
+                            "correctedInputs": value.correctedInputs,
+                            "output": value.output,
+                        };
+                        singleLineArray.push(Obj);
                     });
-
-                    $('.right-tile .content .content').empty().append(output);
+                    //sort array based on the number of corrected Inputs
+                    singleLineArray.sort(function (a, b) {
+                        return a.correctedInputs > b.correctedInputs ? -1 : 1
+                    });
+                    var html = '';
+                    //create and append output html to display on output section
+                    $.each(singleLineArray, function (index, val) {
+                        var percentage = (val.correctedInputs / maximumCorrectedInputs) * 100;
+                        html += '<span>' + val.output + '</span>';
+                        html += '<progress class="progress is-primary" value="' + percentage + '" max="100">' + percentage + '%</progress>';
+                    });
+                    $('.right-tile .content .content').empty().append(html);
                 }
             }
         });
