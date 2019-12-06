@@ -16,12 +16,14 @@
 
               .select
                 margin-right: 5px
+                width: 100%
 
                 &::after
                   margin-top: -.7em
 
                 select
                   font-size: $normal
+                  width: 100%
 
           input
             font-size: $normal
@@ -83,18 +85,28 @@
 
     .content
       .content
-        .tooltip
-          position: relative
-          display: inline-block
-          border-bottom: 1px dotted black
+        .progress
+          margin-bottom: 0
 
-          .tooltiptext
-            visibility: hidden
-            width: 120px
-            background-color: black
-            color: #fff
-            text-align: center
-            border-radius: 6px
-            padding: 5px 0
-            position: absolute
-            z-index: 1
+        .collapsible
+          color: white
+          cursor: pointer
+          outline: none
+          font-size: 10px
+          background: none !important
+          border: none
+          padding: 0 !important
+
+          &:hover
+            background-color: #555
+
+        .content
+          padding: 0 18px
+          display: none
+          overflow: hidden
+
+          ul
+            font-size: 10px
+
+        .active
+          background-color: #555

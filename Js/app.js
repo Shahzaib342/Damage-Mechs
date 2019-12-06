@@ -33,25 +33,27 @@ $(document).ready(function () {
                     //create and append output html to display on output section
                     $.each(singleLineArray, function (index, val) {
                         var percentage = (val.correctedInputs / maximumCorrectedInputs) * 100;
-                        html += '<div class="tooltip" onclick="app.showDesc($(this))">' + val.output + '<span class="tooltiptext">' + val.Desc + '</span></div>';
+                        html += '<button type="button" class="collapsible">' + val.output + '</button>';
                         html += '<progress class="progress is-primary" value="' + percentage + '" max="100">' + percentage + '%</progress>';
+                        html += '<div class="content">';
+                        html += '<ul style="list-style: none">';
+                        $.each(val.Desc, function (k, v) {
+                            html += '<li>';
+                            html += k;
+                            html += '<ul>';
+                            $.each(v, function (i, j) {
+                                html += '<li>' + j + '</li>';
+                            });
+                            html += '</ul></li>';
+                        });
+                        html += '</ul></div>';
                     });
                     $('.right-tile .content .content').empty().append(html);
+                    app.addCollapsibleEvent();
                 }
             }
         });
     });
-
-    //display description of this output on click of output
-    app.showDesc = function (param) {
-        $('.modal .box').text($(param).find('span.tooltiptext').text());
-        $('.modal').addClass('is-active');
-    };
-
-    //close Modal
-    app.closeModal = function () {
-        $('.modal').removeClass('is-active');
-    };
 
     //create material & equipment type dropdowns
     var materialTypes = [
@@ -159,4 +161,34 @@ $(document).ready(function () {
     });
 
     $('select#equipment-type').append(equipmentTypeOptions);
+
+    app.addCollapsibleEvent = function () {
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                content = content.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    };
+
+    //allow only positive and greater than 0 number for Thickness
+    $('input[name="thickness"]').on('focusout', function () {
+        $('span.error').remove();
+        if ($(this).val() <= 0) {
+            $(this).val('');
+            $('input[name="thickness"]').after('<span class="error" style="color:red">value must be greater than 0</span>');
+        } else {
+            $('span.error').remove();
+        }
+    });
 });
+

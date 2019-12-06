@@ -9,20 +9,26 @@
                         <!-- Content -->
                         <div class="columns dropdown-columns">
                             <div class="column is-half">
-                                <div class="control">
-                                    <div class="select">
-                                        <select id="material-type" name="material-type">
-                                            <option value="0">Select Material Type</option>
-                                        </select>
+                                <div class="field">
+                                    <label class="label">Material Type</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select id="material-type" name="material-type">
+                                                <option value="0">Select Material Type</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="column is-half">
-                                <div class="control">
-                                    <div class="select">
-                                        <select id="equipment-type" name="equipment-type">
-                                            <option value="0">Select Equipment Type</option>
-                                        </select>
+                                <div class="field">
+                                    <label class="label">Equipment Type</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select id="equipment-type" name="equipment-type">
+                                                <option value="0">Select Equipment Type</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -30,6 +36,7 @@
                         <div class="columns">
                             <div class="column is-half">
                                 <div class="field">
+                                    <label class="label">Years in service</label>
                                     <div class="control">
                                         <input class="input" type="text" placeholder="Years in service"
                                                name="years-in-service">
@@ -38,6 +45,7 @@
                             </div>
                             <div class="column">
                                 <div class="field">
+                                    <label class="label">Thickness(Inches)</label>
                                     <div class="control">
                                         <input class="input" type="number" required placeholder="Thickness(Inches)"
                                                name="thickness">
@@ -48,6 +56,7 @@
                         <div class="columns">
                             <div class="column is-half">
                                 <div class="field">
+                                    <label class="label">Internal Pressure</label>
                                     <div class="control">
                                         <input class="input" type="text" placeholder="Internal Pressure"
                                                name="internal-pressure">
@@ -56,8 +65,10 @@
                             </div>
                             <div class="column">
                                 <div class="field">
+                                    <label class="label">Temperature (Max of Process/Skin) in fahrenheit</label>
                                     <div class="control">
-                                        <input class="input" type="number" placeholder="Temperature (Max of Process/Skin) in fahrenheit"
+                                        <input class="input" type="number"
+                                               placeholder="Temperature (Max of Process/Skin) in fahrenheit"
                                                name="temperature-max-of-process-or-skin">
                                     </div>
                                 </div>

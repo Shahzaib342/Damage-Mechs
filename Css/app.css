@@ -9,12 +9,14 @@
 }
 .container .left-tile .tile.is-vertical .tile.is-parent .content .dropdown-columns .control .select {
   margin-right: 5px;
+  width: 100%;
 }
 .container .left-tile .tile.is-vertical .tile.is-parent .content .dropdown-columns .control .select::after {
   margin-top: -0.7em;
 }
 .container .left-tile .tile.is-vertical .tile.is-parent .content .dropdown-columns .control .select select {
   font-size: 0.8em;
+  width: 100%;
 }
 .container .left-tile .tile.is-vertical .tile.is-parent .content input {
   font-size: 0.8em;
@@ -71,21 +73,31 @@
 .container .right-tile {
   padding-left: 0;
 }
-.container .right-tile .content .content .tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
+.container .right-tile .content .content .progress {
+  margin-bottom: 0;
 }
-.container .right-tile .content .content .tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
+.container .right-tile .content .content .collapsible {
+  color: white;
+  cursor: pointer;
+  outline: none;
+  font-size: 10px;
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+}
+.container .right-tile .content .content .collapsible:hover {
+  background-color: #555;
+}
+.container .right-tile .content .content .content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
+.container .right-tile .content .content .content ul {
+  font-size: 10px;
+}
+.container .right-tile .content .content .active {
+  background-color: #555;
 }
 
 /*# sourceMappingURL=app.css.map */
