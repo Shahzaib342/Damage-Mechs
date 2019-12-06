@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    app = {};
+
     //submit form data in ajax and then create output/ranking section based on the response
     $('form').submit(function (event) {
         event.preventDefault();
@@ -19,6 +21,7 @@ $(document).ready(function () {
                         var Obj = {
                             "correctedInputs": value.correctedInputs,
                             "output": value.output,
+                            'Desc': value.Desc
                         };
                         singleLineArray.push(Obj);
                     });
@@ -30,7 +33,7 @@ $(document).ready(function () {
                     //create and append output html to display on output section
                     $.each(singleLineArray, function (index, val) {
                         var percentage = (val.correctedInputs / maximumCorrectedInputs) * 100;
-                        html += '<span>' + val.output + '</span>';
+                        html += '<div class="tooltip" onclick="app.showDesc($(this))">' + val.output + '<span class="tooltiptext">' + val.Desc + '</span></div>';
                         html += '<progress class="progress is-primary" value="' + percentage + '" max="100">' + percentage + '%</progress>';
                     });
                     $('.right-tile .content .content').empty().append(html);
@@ -38,6 +41,17 @@ $(document).ready(function () {
             }
         });
     });
+
+    //display description of this output on click of output
+    app.showDesc = function (param) {
+        $('.modal .box').text($(param).find('span.tooltiptext').text());
+        $('.modal').addClass('is-active');
+    };
+
+    //close Modal
+    app.closeModal = function () {
+        $('.modal').removeClass('is-active');
+    };
 
     //create material & equipment type dropdowns
     var materialTypes = [

@@ -39,7 +39,7 @@
                             <div class="column">
                                 <div class="field">
                                     <div class="control">
-                                        <input class="input" type="number" placeholder="Thickness(Inches)"
+                                        <input class="input" type="number" required placeholder="Thickness(Inches)"
                                                name="thickness">
                                     </div>
                                 </div>

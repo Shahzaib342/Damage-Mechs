@@ -71,5 +71,21 @@
 .container .right-tile {
   padding-left: 0;
 }
+.container .right-tile .content .content .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+.container .right-tile .content .content .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
 
 /*# sourceMappingURL=app.css.map */
