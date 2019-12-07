@@ -162,6 +162,7 @@ $(document).ready(function () {
 
     $('select#equipment-type').append(equipmentTypeOptions);
 
+    //event for collapsible output sections
     app.addCollapsibleEvent = function () {
         var coll = document.getElementsByClassName("collapsible");
         var i;
@@ -180,7 +181,7 @@ $(document).ready(function () {
         }
     };
 
-    //allow only positive and greater than 0 number for Thickness
+    //allow only positive and greater than 0 number for Thickness field
     $('input[name="thickness"]').on('focusout', function () {
         $('span.error').remove();
         if (isNaN($(this).val()) || $(this).val() <= 0) {
@@ -188,6 +189,28 @@ $(document).ready(function () {
             $('input[name="thickness"]').after('<span class="error" style="color:red">value must be greater than 0</span>');
         } else {
             $('span.error').remove();
+        }
+    });
+
+    //allow only positive number for years in service field
+    $('input[name="years-in-service"]').on('focusout', function () {
+        $('span.service-years-error').remove();
+        if (isNaN($(this).val()) || $(this).val() < 0) {
+            $(this).val('');
+            $('input[name="years-in-service"]').after('<span class="service-years-error" style="color:red">value must be a positive number</span>');
+        } else {
+            $('span.service-years-error').remove();
+        }
+    });
+
+    //allow only positive number for Internal pressure field
+    $('input[name="internal-pressure"]').on('focusout', function () {
+        $('span.internal-pressure-error').remove();
+        if (isNaN($(this).val()) || $(this).val() < 0) {
+            $(this).val('');
+            $('input[name="internal-pressure"]').after('<span class="internal-pressure-error" style="color:red">value must be a positive number</span>');
+        } else {
+            $('span.internal-pressure-error').remove();
         }
     });
 });

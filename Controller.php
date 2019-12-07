@@ -21,6 +21,8 @@ function processOutput($data)
     $response = array();
     $maximumCorrectedInputs = 0;
 
+    //add all conditions based on which you want to create output
+
     /** 1 Galvanic Corrosion */
     if (in_array((int)$data['material-type'], range(1, 9)) && in_array((int)$data['equipment-type'], [11, 12, 13, 27, 16, 17, 18, 32]) && $data['temperature-max-of-process-or-skin'] >= 800 && $data['temperature-max-of-process-or-skin'] < 1000) {
         $desc = array(
@@ -477,6 +479,10 @@ function processOutput($data)
     unset($materialType);
     unset($correctInputs);
 
+    //if you have more conditions/rule you can add here using the same structure as used above
+
+
+    //return result
     $response['outputs'] = $output;
     $response['maximumCorrectedInputs'] = $maximumCorrectedInputs;
     return $response;
