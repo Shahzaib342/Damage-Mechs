@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Damage Mechs</title>
+    <title>DM Simulator</title>
     <link rel="stylesheet" href="Css/bulma.min.css">
     <link rel="stylesheet" href="Css/app.css">
     <script defer src="Js/all.js"></script>
@@ -14,7 +14,7 @@
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
             <a class="navbar-item">
-                Damage Mechs
+                DAMAGE  MECHANISM SIMULATOR
             </a>
         </div>
     </div>
@@ -24,6 +24,5 @@
     <?php include 'Templates/left-tile-section.php'; ?>
     <?php include 'Templates/right-tile-section.php'; ?>
 </div>
-
 </body>
 </html>
