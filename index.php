@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="Css/app.css">
     <script defer src="Js/all.js"></script>
     <script defer src="Js/jquery.min.js"></script>
-    <script defer src="/Js/app.js"></script>
+    <script defer src="Js/app.js"></script>
+    <script src="https://use.fontawesome.com/5b17aee48f.js"></script>
 </head>
 <body>
 

@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('form').submit(function (event) {
         event.preventDefault();
         $.ajax({
-            url: '/Controller.php',
+            url: 'Controller.php',
             type: 'post',
             data: $('form#form-data').serialize(),
             dataType: 'json',
@@ -36,7 +36,8 @@ $(document).ready(function () {
                     //create and append output html to display on output section
                     $.each(singleLineArray, function (index, val) {
                         var percentage = (val.correctedInputs / maximumCorrectedInputs) * 100;
-                        html += '<button type="button" class="collapsible">' + val.output + '</button>';
+                        html += '<button type="button" class="collapsible"><i class="fa fa-angle-down"></i> ';
+                        html += val.output + '</button>';
                         html += '<progress class="progress is-primary" value="' + percentage + '" max="100">' + percentage + '%</progress>';
                         html += '<div class="content">';
                         html += '<ul style="list-style: none">';
@@ -173,6 +174,7 @@ $(document).ready(function () {
         for (i = 0; i < coll.length; i++) {
             coll[i].addEventListener("click", function () {
                 this.classList.toggle("active");
+                $(this).find('svg').toggleClass('fa-angle-down').toggleClass('fa-angle-up');
                 var content = this.nextElementSibling;
                 content = content.nextElementSibling;
                 if (content.style.display === "block") {
