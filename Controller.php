@@ -2,10 +2,101 @@
 //handle the form data and generate outputs on base of required conditions
 $response = array();
 $response['success'] = false;
+//global material type and equipment type arrays
+$materialTypes = array(
+    'Vintage carbon Steels  (UTS = 414MPa (60 ksi))',
+    'Vintage carbon Steels  (UTS >414MPa (60 ksi))',
+    'Carbon Steel  Graphitized',
+    'Carbon Steel (UTS = 414MPa (60 ksi))',
+    'Carbon Steel (UTS > 414MPa (60 ksi))',
+    'Carbon Steel Alloy C-1/2Mo',
+    'Carbon Steel 1Cr-1/2Mo',
+    'Carbon Steel Alloy 1-1/4Cr-1/2Mo Normalized & Tempered',
+    'Carbon Steel Alloy 1-1/4Cr-1/2Mo  Annealed',
+    'Carbon Steel Alloy 2-1/4Cr-1Mo Normalized & Tempered',
+    'Carbon Steel Alloy 2-1/4Cr-1Mo Annealed',
+    'Carbon Steel Alloy 2-1/4Cr-1Mo Quenched & Tempered',
+    'Carbon Steel Alloy 2-1/4Cr-1Mo V',
+    'Carbon Steel Alloy 3Cr-1Mo-V',
+    'Carbon Steel Alloy 5Cr-1/2Mo',
+    'Carbon Steel Alloy 7Cr-1/2Mo',
+    'Carbon Steel Alloy 9Cr-1Mo',
+    'Carbon Steel Alloy 9Cr-1Mo V',
+    'High-strength low Alloy Steel Cr-Mo-V',
+    'Carbon Steel Alloy 12 Cr',
+    'Carbon Steel Alloy 800',
+    'Carbon Steel Alloy 800H',
+    'Carbon Steel Alloy 800HT',
+    'Carbon Steel Alloy HK-40',
+    '400 Series SS (e.g., 405, 409, 410, 410S, 430 and 446)',
+    'Duplex stainless steels such as Alloys 2205, 2304 and 2507',
+    '300 Series SS',
+    'AISI Type 304 & 304H',
+    'AISI Type 316 & 316H',
+    'AISI Type 321',
+    'AISI Type 321H',
+    'AISI Type 347',
+    'AISI Type 347H',
+    'Cast Stainless Steel',
+    'Alloy 400',
+    'Lead and Lead based Alloys',
+    'Zinc & Zinc based alloys',
+    'XXXXXXX',
+    'Titanium & Titanium based alloys',
+    'Refractory Material',
+    'Polymers',
+    'Cast Iron',
+    'Aluminium & Aluminium based alloy',
+    'Nickel & Nickel based Alloys',
+    'Copper & Copper based Alloys ((brass, bronze, tin, Alloy 400)',
+    'A693 (TP630, TP631)',
+    'A286 Stainless Steel'
+);
+$equipmentTypes = array(
+    'Boiler: Convection tubes',
+    'Boiler: Downcomers',
+    'Boiler: Economizer',
+    'Boiler: Firebox',
+    'Boiler: Mud Drum',
+    'Boiler: Radiant tubes',
+    'Boiler: Risers',
+    'Boiler: Steam Drums',
+    'Boiler: Superheater',
+    'Fired heater: Convection tubes',
+    'Fired heater: Fire box /Shell',
+    'Fired heater: Other tubes',
+    'Fired heater: Radiant tube',
+    'Air Cooled Heat Exchanger -  Header',
+    'Air Cooled Heat Exchanger - Tube',
+    'Shell Tube Heat Exchanger: Bundle',
+    'Shell Tube Heat Exchanger: Channel',
+    'Shell Tube Heat Exchanger: Shell',
+    'Columns : Bottom',
+    'Columns : Middle',
+    'Columns : Top',
+    'Columns : Trays',
+    'Storage Tanks-Roof',
+    'Storage Tanks-Shell',
+    'Storage Tanks-Bottom',
+    'Storage Tanks Sphere -Shell',
+    'Piping / Pipeline',
+    'Pressure Vessels- Deaerator- Shell',
+    'Pressure Vessels- Accumulator-Shell',
+    'Pressure Vessels-Drum-Shell',
+    'Pressure Vessels- Filter -Shell',
+    'Pressure Vessels- Reactor-Shell',
+    'Pressure Vessels- Receiver -Shell',
+    'Relief Devices',
+    'Weld & HAZ - Shell / Wall',
+    'Weld & HAZ -Tube / Tubesheet / Bundle',
+    'Weld & HAZ Tray / Baffle',
+    'Pumps & Turbines (ROT Equipment)',
+    'Valves'
+);
 
 if (isset($_POST['token'])) {
     $data = $_POST;
-    $response['output'] = processOutput($data);
+    $response['output'] = processOutput($data, $materialTypes, $equipmentTypes);
     $response['success'] = true;
     echo json_encode($response);
 } else {
@@ -13,13 +104,66 @@ if (isset($_POST['token'])) {
 }
 
 
-function processOutput($data)
+function processOutput($data, $materialTypes, $equipmentTypes)
 {
     //creep temperature in ferhenite
     $creepTemperature = array(650, 650, 700, 700, 700, 750, 750, 800, 800, 800, 800, 800, 825, 825, 800, 800, 800, 850, 825, 900, 1050, 1050, 1050, 1200, null, null, null, 950, 1000, 1000, 1000, 1000, 1000, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
     $output = array();
     $response = array();
     $maximumCorrectedInputs = 0;
+
+    //creat input based format to display at the format
+    $outputFormat = '';
+    if ($data['material-type'] != '')
+        $outputFormat .= 'Material Type: ' . $materialTypes[$data['material-type'] - 1];
+    if (isset($data['equipment-type']))
+        $outputFormat .= ' :: Equipment Type: ' . $equipmentTypes[$data['equipment-type'] - 1];
+    if ($data['years-in-service'] != '')
+        $outputFormat .= ' :: Years in service: ' . $data['years-in-service'];
+    if ($data['temperature-max-of-process-or-skin'] != '')
+        $outputFormat .= ' :: Temperature: ' . $data['temperature-max-of-process-or-skin'] . '°F';
+    if ($data['thickness'] != '')
+        $outputFormat .= ' :: Thickness: ' . $data['thickness'];
+    if ($data['internal-pressure'] != '')
+        $outputFormat .= ' :: Pressure: ' . $data['internal-pressure'];
+
+    $outputFormat .= ' :: ';
+
+    if (isset($data['high-dynamic-loading']))
+        $outputFormat .= 'Equipment Under excessive dynamic loads: ';
+    if (isset($data['hydrogen-present']))
+        $outputFormat .= 'Process contains Hydrogen: ';
+    if (isset($data['amonia']))
+        $outputFormat .= 'Process contains Ammonia: ';
+    if (isset($data['PWHT']))
+        $outputFormat .= 'Equipment Post weld Heat treated: ';
+    if (isset($data['Ext-Coating']))
+        $outputFormat .= 'Equipment coated with Anti-corrosion/rust: ';
+    if (isset($data['insulation-or-fire-proofing']))
+        $outputFormat .= 'Equipment Insulated: ';
+    if (isset($data['refractory-lined']))
+        $outputFormat .= 'Equipment refractory lined: ';
+    if (isset($data['excessive-compressive-stress']))
+        $outputFormat .= 'Equipment Under excessive compression stress: ';
+    if (isset($data['Intermittent']))
+        $outputFormat .= 'Equipment experiencing Intermittent overheating: ';
+    if (isset($data['chloride-present']))
+        $outputFormat .= 'Process contains Chlorides: ';
+    if (isset($data['caustics-present']))
+        $outputFormat .= ' Process contains Caustics: ';
+    if (isset($data['sulphur-present']))
+        $outputFormat .= 'Process contains sulfur: ';
+    if (isset($data['25-percent-Oxygen-process']))
+        $outputFormat .= 'Process is oxygen enriched (&gt;25%): ';
+    if (isset($data['thermal-cycle-over-heating']))
+        $outputFormat .= 'Equipment under excess Thermal cycle: ';
+    if (isset($data['excessive-tensile-stress']))
+        $outputFormat .= 'Equipment Under excess Tensile stress: ';
+    if (isset($data['mismatch-ajoining-metals']))
+        $outputFormat .= ': Equipment contains different connected welded materials';
+    if (isset($data['mat-creep-range']))
+        $outputFormat .= 'Mat creep range present: ';
+
 
     //add all conditions based on which you want to create output
 
@@ -63,7 +207,7 @@ function processOutput($data)
         unset($desc);
     }
     /* 2.1 Slight-Moderate Softening */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]) && in_array((int)$data['equipment-type'], [1, 6, 10, 11, 12, 13, 27, 16, 18, 32]) && $data['temperature-max-of-process-or-skin'] >= 850 && $data['temperature-max-of-process-or-skin'] < 1300) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]) && in_array((int)$data['equipment-type'], [1, 6, 10, 11, 12, 13, 27, 16, 18, 32]) && $data['temperature-max-of-process-or-skin'] >= 850 && $data['temperature-max-of-process-or-skin'] < 1300) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Pearlitic phase gradual transformation from partial to complete spheroidization'
@@ -102,7 +246,7 @@ function processOutput($data)
         unset($desc);
     }
     /* 3 Temper Embrittlement */
-    if (in_array((int)$data['material-type'], [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 19]) && in_array((int)$data['equipment-type'], [10,11, 12, 13, 16, 17, 18, 32,33]) && $data['temperature-max-of-process-or-skin'] > 650 && $data['temperature-max-of-process-or-skin'] <= 1100) {
+    if (in_array((int)$data['material-type'], [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 19]) && in_array((int)$data['equipment-type'], [10, 11, 12, 13, 16, 17, 18, 32, 33]) && $data['temperature-max-of-process-or-skin'] > 650 && $data['temperature-max-of-process-or-skin'] <= 1100) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Brittle fracture.', 'Intergranular cracking in severe cases.', 'Shift in the ductile-to-brittle transition temperature with negligible effects on the upper shelf energy.'
@@ -121,14 +265,14 @@ function processOutput($data)
         unset($desc);
     }
     /* 4 Strain Aging */
-    if (in_array((int)$data['material-type'], [1, 2, 6]) && in_array((int)$data['equipment-type'],[8,9,11, 12, 13, 16, 17, 18,24,26,28,29,30,31,32,33,35]) && $data['temperature-max-of-process-or-skin'] >= 450 && $data['thickness'] >= 1) {
+    if (in_array((int)$data['material-type'], [1, 2, 6]) && in_array((int)$data['equipment-type'], [8, 9, 11, 12, 13, 16, 17, 18, 24, 26, 28, 29, 30, 31, 32, 33, 35]) && $data['temperature-max-of-process-or-skin'] >= 450 && $data['thickness'] >= 1) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Loss of toughness and Increased hardness'
                 ), 'Inspection Method' =>
                 array('NA'
                 ), 'Prevention' =>
-                array('PWHT repaired welds.', 'Change to Newer Steel.','IOW Monitoring.'
+                array('PWHT repaired welds.', 'Change to Newer Steel.', 'IOW Monitoring.'
                 ));
         $output[] = [
             'output' => 'Strain Aging',
@@ -140,7 +284,7 @@ function processOutput($data)
         unset($desc);
     }
     /* 5 885°F (475°C) Embrittlement */
-    if (in_array((int)$data['material-type'],[25,26]) && in_array((int)$data['equipment-type'],[16,22,35,36,37]) && $data['temperature-max-of-process-or-skin'] >= 600 && $data['temperature-max-of-process-or-skin'] <= 1000) {
+    if (in_array((int)$data['material-type'], [25, 26]) && in_array((int)$data['equipment-type'], [16, 22, 35, 36, 37]) && $data['temperature-max-of-process-or-skin'] >= 600 && $data['temperature-max-of-process-or-skin'] <= 1000) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Loss of toughness and Increased hardness'
@@ -160,7 +304,7 @@ function processOutput($data)
     }
 
     /** 6 Sigma Phase Embrittlement */
-    if (in_array((int)$data['material-type'], range(22,34)) && in_array((int)$data['equipment-type'], [6,10,12,13,15,16,27,36,39]) && $data['temperature-max-of-process-or-skin'] >= 1000 && $data['temperature-max-of-process-or-skin'] <= 1700) {
+    if (in_array((int)$data['material-type'], range(22, 34)) && in_array((int)$data['equipment-type'], [6, 10, 12, 13, 15, 16, 27, 36, 39]) && $data['temperature-max-of-process-or-skin'] >= 1000 && $data['temperature-max-of-process-or-skin'] <= 1700) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Cracking, Welds & High Stress areas are more susceptible.'
@@ -183,14 +327,14 @@ function processOutput($data)
     /* numbers [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]*/
     /* numbers [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47]*/
     /* logic operator format && isset($data['thermal-cycle-over-heating']) */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,25]) && in_array((int)$data['equipment-type'], [14,15,16,17,18,19,20,21,22,24,25,26,27,28,29,30,31,32,33,40]) && $data['years-in-service'] >= 30 && ((isset($data['excessive-tensile-stress'])) || (isset($data['excessive-compressive-stress'])) || (isset($data['excessive-residual-stress']))))      {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 25]) && in_array((int)$data['equipment-type'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 40]) && $data['years-in-service'] >= 30 && ((isset($data['excessive-tensile-stress'])) || (isset($data['excessive-compressive-stress'])) || (isset($data['excessive-residual-stress'])))) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Cracks (Straight, non-branching, and no ductility / plastic deformation)'
                 ), 'Inspection Method' =>
                 array('Impact test.'
                 ), 'Prevention' =>
-                array('Proper Material Selection and Heat treatment','Strict IOWs especially during Hydrotest & Startup/Shutdown'
+                array('Proper Material Selection and Heat treatment', 'Strict IOWs especially during Hydrotest & Startup/Shutdown'
                 ));
         $correctInputs = isset($data['excessive-tensile-stress']) ? (isset($data['excessive-compressive-stress']) ? (isset($data['excessive-residual-stress']) ? 6 : 5) : (isset($data['excessive-residual-stress']) ? 5 : 4)) : 4;
         $output[] = [
@@ -207,7 +351,7 @@ function processOutput($data)
     /*what does the logic do when creep temp is not available? does it ignore this logic or just makes it true?
     Ans : ignore this logic
      */
-    if (!in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47]) && ((int)$data['equipment-type'] != 0) && $data['temperature-max-of-process-or-skin'] >= $creepTemperature[(int)$data['material-type']]) {
+    if (!in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47]) && ((int)$data['equipment-type'] != 0) && $data['temperature-max-of-process-or-skin'] >= $creepTemperature[(int)$data['material-type']]) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array(' At Creep temperature threshold limits, deformation may be observed as well as Creep cracking.', 'Creep voids, fissuring and cracks around the grain boundaries at later stages.'
@@ -226,7 +370,7 @@ function processOutput($data)
         unset($desc);
     }
     /** 9 Thermal Fatigue */
-    if (!in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47]) && in_array((int)$data['equipment-type'],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,36,37,38,40,41]) && isset($data['thermal-cycle-over-heating'])) {
+    if (!in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 40, 41]) && isset($data['thermal-cycle-over-heating'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Cracks usually initiate on the surface of the component and propagate transverse to the stress direction.'
@@ -250,7 +394,7 @@ function processOutput($data)
     check "corrected input is correct as per your structure"
     $equipmentType = range(1, 13);
     if (!in_array((int)$data['material-type'], [40, 41]) && in_array((int)$data['material-type'], $equipmentType) && isset($data['Intermittent'])) */
-    if (!in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,36,37,39,43,44,45,46,47]) && in_array((int)$data['equipment-type'],[1,6,10,12,13]) && isset($data['Intermittent']) && $data['temperature-max-of-process-or-skin'] >= 1000) {
+    if (!in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 39, 43, 44, 45, 46, 47]) && in_array((int)$data['equipment-type'], [1, 6, 10, 12, 13]) && isset($data['Intermittent']) && $data['temperature-max-of-process-or-skin'] >= 1000) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Localized deformation or bulging on the order of 3% to 10% or more and Stress Rupture.'
@@ -270,7 +414,7 @@ function processOutput($data)
     }
 
     /** 11 Steam Blanketing */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19]) && in_array((int)$data['equipment-type'], [1, 6, 10, 12, 13])) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]) && in_array((int)$data['equipment-type'], [1, 6, 10, 12, 13])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Open burst with the fracture edges', 'bulging drawn to a near knife-edge'
@@ -290,12 +434,12 @@ function processOutput($data)
     }
 
     /** 12 Dissimilar Metal Weld (DMW) Cracking */
-    if (in_array((int)$data['material-type'],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47]) && ((int)$data['equipment-type'] != 0) && isset($data['mismatch-ajoining-metals'])) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47]) && ((int)$data['equipment-type'] != 0) && isset($data['mismatch-ajoining-metals'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Cracks.', ' Usually formed around the toe of the weld in the heat-affected zone'
                 ), 'Inspection Method' =>
-                array('NDE Visual examination', 'NDE-Liquid Penetrant', 'NDE-Ultrasonic Testing', ' NDE-Radiographic Testing','NDE- Positive Material Identification'
+                array('NDE Visual examination', 'NDE-Liquid Penetrant', 'NDE-Ultrasonic Testing', ' NDE-Radiographic Testing', 'NDE- Positive Material Identification'
                 ), 'Prevention' =>
                 array('Proper Material Design (geometry and correct welding procedure )'
                 ));
@@ -310,7 +454,7 @@ function processOutput($data)
     }
 
     /** 13 Thermal Shock */
-    if (!in_array((int)$data['material-type'],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,16,17,18,28,29,30,31,32,33,34])&& isset($data['thermal-cycle-over-heating'])) {
+    if (!in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 28, 29, 30, 31, 32, 33, 34]) && isset($data['thermal-cycle-over-heating'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Cracks initiating from the surface and may also appear as craze cracks.'
@@ -329,7 +473,7 @@ function processOutput($data)
         unset($desc);
     }
     /** 14 Erosion/Erosion Corrosion */
-    if (!in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,42,43,44,45,46,47]) && ((int)$data['equipment-type'] != 0)) {
+    if (!in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 42, 43, 44, 45, 46, 47]) && ((int)$data['equipment-type'] != 0)) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Localized loss in thickness in the form of pitsLocalized loss in thickness in the form of pits', 'grooves' . 'gullies', 'waves', 'rounded holes and valleys'
@@ -349,7 +493,7 @@ function processOutput($data)
     }
 
     /** 15 Cavitation */
-    if (!in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47]) && in_array((int)$data['equipment-type'], [38, 39])) {
+    if (!in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47]) && in_array((int)$data['equipment-type'], [38, 39])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Sharp-edged pits or  gouges in rotational components'
@@ -368,7 +512,7 @@ function processOutput($data)
         unset($desc);
     }
     /** 16 Mechanical Fatigue */
-    if (!in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,27,31,32,34,38,39]) && ((isset($data['excessive-tensile-stress'])) || (isset($data['excessive-compressive-stress'])))) {
+    if (!in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 27, 31, 32, 34, 38, 39]) && ((isset($data['excessive-tensile-stress'])) || (isset($data['excessive-compressive-stress'])))) {
         $correctInputs = isset($data['excessive-tensile-stress']) ? (isset($data['excessive-compressive-stress']) ? 4 : 3) : isset($data['excessive-compressive-stress']) ? (isset($data['excessive-tensile-stress']) ? 4 : 3) : 3;
         $desc = array(
             'Appearance or Morphology of Damage' =>
@@ -390,7 +534,7 @@ function processOutput($data)
     }
 
     /** 17 Vibration-Induced Fatigue  */
-    if (!in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47]) && in_array((int)$data['equipment-type'],[15,16,27,34,35,36,37,38,39]) && (isset($data['high-dynamic-loading']))) {
+    if (!in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47]) && in_array((int)$data['equipment-type'], [15, 16, 27, 34, 35, 36, 37, 38, 39]) && (isset($data['high-dynamic-loading']))) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Crack initiating at a point of high stress or discontinuity such as a thread or weld joint '
@@ -410,7 +554,7 @@ function processOutput($data)
     }
 
     /** 18 Refractory Degradation */
-    if (in_array((int)$data['equipment-type'],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]) && in_array((int)$data['material-type'], [40]) && ((isset($data['sulphur-present'])) || $data['temperature-max-of-process-or-skin'] >= 1200)){
+    if (in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) && in_array((int)$data['material-type'], [40]) && ((isset($data['sulphur-present'])) || $data['temperature-max-of-process-or-skin'] >= 1200)) {
         $correctInputs = isset($data['sulphur-present']) ? ($data['temperature-max-of-process-or-skin'] >= 1200 ? 4 : 3) : ($data['temperature-max-of-process-or-skin'] >= 1200 ? 3 : 2);
         $desc = array(
             'Appearance or Morphology of Damage' =>
@@ -431,7 +575,7 @@ function processOutput($data)
         unset($correctInputs);
     }
     /** 19 Reheat Cracking */
-    if (in_array((int)$data['material-type'], [6,7,8,9,10,11,12,3,14,15,16,19,21,22,23,24,27,28,29,30,31,32,33,44,47]) && in_array((int)$data['equipment-type'], [27,28,29,30,31,32,33]) && $data['temperature-max-of-process-or-skin'] > 750 && $data['thickness'] >= 1) {
+    if (in_array((int)$data['material-type'], [6, 7, 8, 9, 10, 11, 12, 3, 14, 15, 16, 19, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 44, 47]) && in_array((int)$data['equipment-type'], [27, 28, 29, 30, 31, 32, 33]) && $data['temperature-max-of-process-or-skin'] > 750 && $data['thickness'] >= 1) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Intergranular cracking (Surface breaking or embedded depending on stress and geometry type). Welds /HAZ are particularly susceptible.'
@@ -451,7 +595,7 @@ function processOutput($data)
     }
 
     /* 20 Gaseous Oxygen-Enhanced Ignition and Combustion */
-    if (in_array((int)$data['material-type'],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33,39,41,43]) && in_array((int)$data['equipment-type'],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]) && isset($data['25-percent-Oxygen-process'])) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33, 39, 41, 43]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) && isset($data['25-percent-Oxygen-process'])) {
         $correctInputs = isset($data['sulphur-present']) ? ($data['temperature-max-of-process-or-skin'] >= 1200 ? 5 : 4) : ($data['temperature-max-of-process-or-skin'] >= 1200 ? 4 : 3);
         $desc = array(
             'Appearance or Morphology of Damage' =>
@@ -827,6 +971,7 @@ Prevention -Proper material and welding design. Periodic cleaning.
 END OF ADDITIONAL LOGIC*/
 
     $response['outputs'] = $output;
+    $response['outputFomat'] = $outputFormat;
     $response['maximumCorrectedInputs'] = $maximumCorrectedInputs;
     return $response;
 }

@@ -29,7 +29,10 @@ $(document).ready(function () {
                     singleLineArray.sort(function (a, b) {
                         return a.correctedInputs > b.correctedInputs ? -1 : 1
                     });
-                    var html = '';
+                    var html = '<div class="inputs-section">\n' +
+                        '                        <span class="title">Inputs</span>\n' +
+                        '                        <span class="inputs-data">' + data.output.outputFomat + '</span>\n' +
+                        '                    </div>';
                     //create and append output html to display on output section
                     $.each(singleLineArray, function (index, val) {
                         var percentage = (val.correctedInputs / maximumCorrectedInputs) * 100;
