@@ -117,4 +117,9 @@
   background-color: #555;
 }
 
+.main-footer.login {
+  width: 100%;
+  bottom: 0;
+}
+
 /*# sourceMappingURL=app.css.map */
