@@ -292,6 +292,129 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Cyclic loading</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="cyclic-loading">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Molten zinc</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="molten-zinc">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Molten mercury</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="molten-mercury">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Molten cadmium</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="molten-cadmium">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Molten lead</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="molten-lead">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Molten copper</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="molten-copper">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Tin</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="tin">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">fire/flame present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="fire/flame-present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Cathodic</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="cathodic">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Ethanol present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="ethanol-present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Sulfate present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="sulfate-present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+<!--                            <div class="column is-one-quarter">-->
+<!--                                <div class="field">-->
+<!--                                    <label class="label">fire/flame present</label>-->
+<!--                                    <label class="switch">-->
+<!--                                        <input type="checkbox" name="fire/flame-present">-->
+<!--                                        <span class="slider round"></span>-->
+<!--                                    </label>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="column is-one-quarter">-->
+<!--                                <div class="field">-->
+<!--                                    <label class="label">Cathodic</label>-->
+<!--                                    <label class="switch">-->
+<!--                                        <input type="checkbox" name="cathodic">-->
+<!--                                        <span class="slider round"></span>-->
+<!--                                    </label>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                         <div class="field is-grouped">
                             <div class="control">

@@ -174,7 +174,29 @@ function processOutput($data, $materialTypes, $equipmentTypes)
     if (isset($data['nitrides-present']))
         $outputFormat .= 'Nitrides Present: ';
     if (isset($data['cyanide']))
-        $outputFormat .= 'Cyanide';
+        $outputFormat .= 'Cyanide: ';
+    if (isset($data['cyclic-loading']))
+        $outputFormat .= 'Cyclic Loading: ';
+    if (isset($data['molten-zinc']))
+        $outputFormat .= 'Molten Zinc: ';
+    if (isset($data['molten-mercury']))
+        $outputFormat .= 'Molten Mercury: ';
+    if (isset($data['molten-cadmium']))
+        $outputFormat .= 'Molten Cadmium: ';
+    if (isset($data['molten-lead']))
+        $outputFormat .= 'Molten Lead: ';
+    if (isset($data['molten-copper']))
+        $outputFormat .= 'Molten Copper: ';
+    if (isset($data['tin']))
+        $outputFormat .= 'Tin: ';
+    if (isset($data['fire/flame-present']))
+        $outputFormat .= 'fire/flame Present: ';
+    if (isset($data['cathodic']))
+        $outputFormat .= 'Cathodic: ';
+    if (isset($data['ethanol-present']))
+        $outputFormat .= 'Ethanol Present: ';
+    if (isset($data['sulfate-present']))
+        $outputFormat .= 'Sulfate Present';
 
 
     //add all conditions based on which you want to create output
@@ -1068,6 +1090,177 @@ applied stress.'
                 ));
         $output[] = [
             'output' => 'Chloride Stress Corrosion Cracking (Cl-SCC). process:',
+            'correctedInputs' => 5,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 5)
+            $maximumCorrectedInputs = 5;
+        unset($desc);
+    }
+    /* 41 Corrosion Fatigue . process:*/
+    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,
+        30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,28,38]) && isset($data['cyclic-loading'])) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Transgranular brittle cracks propagation of multiple parallel cracks.'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Testing','NDE- Visual Testing.','NDE- Magnetic Particle.'
+                ), 'Prevention' =>
+                array('Proper Material design','Material stress-relieving heat treatment (e.g. PWHT)',' Anti Corrosion Coating.'
+                ));
+        $output[] = [
+            'output' => 'Corrosion Fatigue process',
+            'correctedInputs' => 3,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 3)
+            $maximumCorrectedInputs = 3;
+        unset($desc);
+    }
+    /* 42 Caustic Stress Corrosion Cracking (Caustic Embrittlement) . process:*/
+    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33]) && in_array((int)$data['equipment-type'], [1,6,27,41]) &&
+    isset($data['caustics-present']) && !isset($data['PWHT']) && $data['temperature-max-of-process-or-skin'] >= 150 && ( isset($data['excessive-tensile-stress']) || isset($data['excessive-compressive-stress']) || isset($data['cyclic-loading'])  )) {
+        $correctInputs = 5;
+        if(isset($data['excessive-tensile-stress']))
+            $correctInputs++;
+        if(isset($data['excessive-compressive-stress']))
+            $correctInputs++;
+        if(isset($data['cyclic-loading']))
+            $correctInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Weblike cracks propagating parallel to the weld & adjacent base metal.','Cracks in the weld deposit or HAZ initiate from local stress raisers.','Typically transgranular cracks in SS.'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Testing UT/SWUT.','NDE- Visual Testing','NDE- Magnetic Particle.','NDE- Eddy Current.','Acoustic Emmision Testing for crack monitoring.'
+                ), 'Prevention' =>
+                array('Proper Material design.','Material stress-relieving heat treatment (e.g. PWHT).'
+                ));
+        $output[] = [
+            'output' => 'Caustic Stress Corrosion Cracking (Caustic Embrittlement) process',
+            'correctedInputs' => $correctInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctInputs)
+            $maximumCorrectedInputs = $correctInputs;
+        unset($desc);
+        unset($correctInputs);
+    }
+    /* 43 Ammonia Stress Corrosion Cracking. Process:*/
+    if (in_array((int)$data['material-type'], [1,2,3,4,5,45]) && in_array((int)$data['equipment-type'], [16,41,24,25,26,27,15,35,36,37,38]) &&
+        isset($data['amonia'])) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Cracking can be either transgranular or intergranular depending on the environment and stress level.','In base metal, or in/around welds/HAZ for non-PWWT Carbon steel.'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Testing UT/SWUT- TOFD','NDE- Visual Testing.','NDE- Magnetic Particle','NDE- Eddy Current.','Acoustic Emmision Testing for crack monitoring.'
+                ), 'Prevention' =>
+                array('Proper Material design (<70 ksi tensile strength).','Proper welding + PWHT.','Hardness Check for welds <=225 BHN.','For CS, Add small quantity of Water  (+0.3% H20 stream).','Monitor pH of Ammonia in Water. ','Prevent Air / oxygen ingress.'
+                ));
+        $output[] = [
+            'output' => 'Ammonia Stress Corrosion Cracking Process',
+            'correctedInputs' => 3,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 3)
+            $maximumCorrectedInputs = 3;
+        unset($desc);
+    }
+    /* 44 Liquid Metal Embrittlement / Cracking (LME/LMC)*/
+    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,29,30,31,32,33,35,39,43,44,45,47]) && in_array((int)$data['equipment-type'], [4,11,18,24,26,28,29,30,32,33,34,35,38]) &&
+    ( isset($data['molten-zinc']) ||  isset($data['molten-mercury']) || isset($data['molten-cadmium']) || isset($data['molten-lead']) || isset($data['molten-copper']) ||
+        isset($data['tin']) || isset($data['fire/flame-present'])) ) {
+        $correctInputs = 2;
+        if(isset($data['molten-zinc']))
+            $correctInputs++;
+        if(isset($data['molten-mercury']))
+            $correctInputs++;
+        if(isset($data['molten-cadmium']))
+            $correctInputs++;
+        if(isset($data['molten-lead']))
+            $correctInputs++;
+        if(isset($data['molten-copper']))
+            $correctInputs++;
+        if(isset($data['tin']))
+            $correctInputs++;
+        if(isset($data['fire/flame-present']))
+            $correctInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Brittle Cracking can be either transgranular or intergranular'
+                ), 'Inspection Method' =>
+                array('NDE- Magnetic Particle.','NDE- Eddy Current.','NDE-Liquid Penetrant testing.','Metallography.'
+                ), 'Prevention' =>
+                array('LME/LMC can only be prevented by protecting metal substrates from coming into contact with the low melting metal.'
+                ));
+        $output[] = [
+            'output' => 'Liquid Metal Embrittlement / Cracking (LME/LMC)',
+            'correctedInputs' => $correctInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctInputs)
+            $maximumCorrectedInputs = $correctInputs;
+        unset($desc);
+        unset($correctInputs);
+    }
+    /* 45 Hydrogen Embrittlement (HE) */
+    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21,22,23,24,25,35,44,47]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,11,18,24,26,27,28,29,30,31,32,33,35,36,37,38]) &&
+        $data['temperature-max-of-process-or-skin'] > 60 && $data['temperature-max-of-process-or-skin'] <=300 && (isset($data['hydrogen-present']) || isset($data['cathodic']) ) ) {
+        $correctInputs = 3;
+        if(isset($data['cathodic']))
+            $correctInputs++;
+        if(isset($data['hydrogen-present']))
+            $correctInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Sub-surface','Surface cracking.'
+                ), 'Inspection Method' =>
+                array('NDE- Magnetic Particle.','NDE- Eddy Current.','NDE-Liquid Penetrant testing.','NDE-Ultrasonic examination.'
+                ), 'Prevention' =>
+                array('Proper material and welding design.','Low hydrogen elctrodes. ','PWHT- stress Relief'
+                ));
+        $output[] = [
+            'output' => 'Hydrogen Embrittlement (HE)',
+            'correctedInputs' => $correctInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctInputs)
+            $maximumCorrectedInputs = $correctInputs;
+        unset($desc);
+        unset($correctInputs);
+    }
+    /* 46 Ethanol Stress Corrosion Cracking (SCC) (HE) */
+    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19]) && in_array((int)$data['equipment-type'], [14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33]) &&
+     isset($data['excessive-tensile-stress']) && isset($data['ethanol-present']) ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Cracks that are parallel to the weld or transverse to the weld.'
+                ), 'Inspection Method' =>
+                array('NDE- Magnetic Particle','NDE-Liquid Penetrant testing','NDE-Ultrasonic examination.'
+                ), 'Prevention' =>
+                array('Proper material and welding design. ','PWHT- stress Relief.'
+                ));
+        $output[] = [
+            'output' => 'Ethanol Stress Corrosion Cracking (SCC)',
+            'correctedInputs' => 4,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 4)
+            $maximumCorrectedInputs = 4;
+        unset($desc);
+    }
+    /* 47 Sulfate Stress Corrosion Cracking. Process: Cooling Water */
+    if (in_array((int)$data['material-type'], [45]) && in_array((int)$data['equipment-type'], [16]) &&
+        isset($data['sulfate-present']) && isset($data['water_service']) && $data['years-in-service'] >= 10 ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Surface Cracks','single or highly branched transgranular.'
+                ), 'Inspection Method' =>
+                array('NDE- Visual Testing','NDE- Eddy Current.','NDE-Liquid Penetrant testing.'
+                ), 'Prevention' =>
+                array('Proper material and welding design.','Periodic cleaning.'
+                ));
+        $output[] = [
+            'output' => 'Sulfate Stress Corrosion Cracking. Process: Cooling Water',
             'correctedInputs' => 5,
             'Desc' => $desc
         ];
