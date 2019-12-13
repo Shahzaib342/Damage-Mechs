@@ -160,9 +160,21 @@ function processOutput($data, $materialTypes, $equipmentTypes)
     if (isset($data['excessive-tensile-stress']))
         $outputFormat .= 'Equipment Under excess Tensile stress: ';
     if (isset($data['mismatch-ajoining-metals']))
-        $outputFormat .= ': Equipment contains different connected welded materials';
+        $outputFormat .= 'Equipment contains different connected welded materials: ';
     if (isset($data['mat-creep-range']))
         $outputFormat .= 'Mat creep range present: ';
+    if (isset($data['water_service']))
+        $outputFormat .= 'Water service: ';
+    if (isset($data['carbon_present']))
+        $outputFormat .= 'Carbon Present: ';
+    if (isset($data['burried-soil-air-cemented']))
+        $outputFormat .= 'Burried/Soil/Air/Cemented: ';
+    if (isset($data['acid-service']))
+        $outputFormat .= 'Acid-service: ';
+    if (isset($data['nitrides-present']))
+        $outputFormat .= 'Nitrides Present: ';
+    if (isset($data['cyanide']))
+        $outputFormat .= 'Cyanide';
 
 
     //add all conditions based on which you want to create output
@@ -616,7 +628,7 @@ function processOutput($data, $materialTypes, $equipmentTypes)
     }
 
     /* 21 Galvanic Corrosion */
-    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33, 39, 41, 43]) && in_array((int)$data['equipment-type'], range(1,41)) && isset($data['mismatch-ajoining-metals'])) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33, 39, 41, 43]) && in_array((int)$data['equipment-type'], range(1, 41)) && isset($data['mismatch-ajoining-metals'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Generalized wall loss in thickness or crevice', 'groove or pitting corrosion'
@@ -634,15 +646,15 @@ function processOutput($data, $materialTypes, $equipmentTypes)
             $maximumCorrectedInputs = 3;
         unset($desc);
     }
-      /* 22 Atmospheric Corrosion */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,43,45]) && in_array((int)$data['equipment-type'], [14,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34,39]) && isset($data['Ext-Coating']) && $data['temperature-max-of-process-or-skin'] < 250) {
+    /* 22 Atmospheric Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 43, 45]) && in_array((int)$data['equipment-type'], [14, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 39]) && isset($data['Ext-Coating']) && $data['temperature-max-of-process-or-skin'] < 250) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('General or localized wall loss','depending upon whether or not the moisture is trapped.'
+                array('General or localized wall loss', 'depending upon whether or not the moisture is trapped.'
                 ), 'Inspection Method' =>
                 array('NDE-Visual Inspections', 'NDE-Ultrasonic Testing'
                 ), 'Prevention' =>
-                array('Proper Material Design.','Anti corrosion / rust Coating.'
+                array('Proper Material Design.', 'Anti corrosion / rust Coating.'
                 ));
         $output[] = [
             'output' => 'Atmospheric Corrosion',
@@ -653,28 +665,28 @@ function processOutput($data, $materialTypes, $equipmentTypes)
             $maximumCorrectedInputs = 4;
         unset($desc);
     }
-      /* 23 Corrosion Under Insulation */
-    if (in_array((int)$data['equipment-type'], [14,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34,39]) && isset($data['insulation-or-fire-proofing']) && ( ( in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19]) &&  $data['temperature-max-of-process-or-skin'] <= 350 && $data['temperature-max-of-process-or-skin'] >= 10 ) 
-       || ( in_array((int)$data['material-type'], [26,27,28,29,30,31,32,33,42]) && $data['temperature-max-of-process-or-skin'] <= 400 && $data['temperature-max-of-process-or-skin'] >= 140 )
+    /* 23 Corrosion Under Insulation */
+    if (in_array((int)$data['equipment-type'], [14, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 39]) && isset($data['insulation-or-fire-proofing']) && ((in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]) && $data['temperature-max-of-process-or-skin'] <= 350 && $data['temperature-max-of-process-or-skin'] >= 10)
+            || (in_array((int)$data['material-type'], [26, 27, 28, 29, 30, 31, 32, 33, 42]) && $data['temperature-max-of-process-or-skin'] <= 400 && $data['temperature-max-of-process-or-skin'] >= 140)
 
-     )        ) {
+        )) {
         $correctedInputs = 2;
-        if(in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19]))
+        if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]))
             $correctedInputs++;
-        if(in_array((int)$data['material-type'], [26,27,28,29,30,31,32,33,42]))
+        if (in_array((int)$data['material-type'], [26, 27, 28, 29, 30, 31, 32, 33, 42]))
             $correctedInputs++;
-        if($data['temperature-max-of-process-or-skin'] <= 350 && $data['temperature-max-of-process-or-skin'] >= 10)
-             $correctedInputs++;
-         if($data['temperature-max-of-process-or-skin'] <= 400 && $data['temperature-max-of-process-or-skin'] >= 140)
-             $correctedInputs++;
+        if ($data['temperature-max-of-process-or-skin'] <= 350 && $data['temperature-max-of-process-or-skin'] >= 10)
+            $correctedInputs++;
+        if ($data['temperature-max-of-process-or-skin'] <= 400 && $data['temperature-max-of-process-or-skin'] >= 140)
+            $correctedInputs++;
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('Localized pitting corrosion and/or wall loss in CS.',' Stress Corrosion Cracks in SS'
+                array('Localized pitting corrosion and/or wall loss in CS.', ' Stress Corrosion Cracks in SS'
                 ), 'Inspection Method' =>
-                array('NDE-Visual Inspections (Strip Insulation).','NDE-Ultrasonic Testing (Guided wave UT). ',' NDE Real-time Profile x-ray (for small bore piping).',' NDE-Neutron backscatter techniques for identifying wet insulation.',' Deep penetrating eddy-current inspection. ',' IR thermography looking for wet insulation and/or damaged and missing insulation under
+                array('NDE-Visual Inspections (Strip Insulation).', 'NDE-Ultrasonic Testing (Guided wave UT). ', ' NDE Real-time Profile x-ray (for small bore piping).', ' NDE-Neutron backscatter techniques for identifying wet insulation.', ' Deep penetrating eddy-current inspection. ', ' IR thermography looking for wet insulation and/or damaged and missing insulation under
 the jacket.'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' Anti corrosion / rust Coating.',' Maintaining the insulation/sealing/vapor barriers to prevent moisture ingress.'
+                array('Proper Material Design.', ' Anti corrosion / rust Coating.', ' Maintaining the insulation/sealing/vapor barriers to prevent moisture ingress.'
                 ));
         $output[] = [
             'output' => 'Corrosion Under Insulation',
@@ -686,15 +698,15 @@ the jacket.'
         unset($desc);
         unset($correctedInputs);
     }
-   /* 24 Cooling Water Corrosion */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,25,26,27,28,29,30,31,32,33,39,43,44,45,47]) && in_array((int)$data['equipment-type'], [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,40]) && isset($data['water_service'])) {
+    /* 24 Cooling Water Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 25, 26, 27, 28, 29, 30, 31, 32, 33, 39, 43, 44, 45, 47]) && in_array((int)$data['equipment-type'], [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 40]) && isset($data['water_service'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('Generalized / Localized wall loss in thickness or crevice','groove or pitting corrosion.','Stress corrosion cracking and fouling'
+                array('Generalized / Localized wall loss in thickness or crevice', 'groove or pitting corrosion.', 'Stress corrosion cracking and fouling'
                 ), 'Inspection Method' =>
-                array('NDE-Visual Inspections.',' NDE-Ultrasonic Testing (Phased array).',' NDE- Radiography. ','NDE-Eddy-current inspection.'
+                array('NDE-Visual Inspections.', ' NDE-Ultrasonic Testing (Phased array).', ' NDE- Radiography. ', 'NDE-Eddy-current inspection.'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' Operation and chemical treatment of cooling water systems;',' Monitoring of process  parameters that affect corrosion and fouling such as the pH','oxygen content','cycles of concentration','biocide residual','biological activity','cooling water outlet temperatures,',' hydrocarbon contamination and process leaks. '
+                array('Proper Material Design.', ' Operation and chemical treatment of cooling water systems;', ' Monitoring of process  parameters that affect corrosion and fouling such as the pH', 'oxygen content', 'cycles of concentration', 'biocide residual', 'biological activity', 'cooling water outlet temperatures,', ' hydrocarbon contamination and process leaks. '
                 ));
         $output[] = [
             'output' => 'Cooling Water Corrosion',
@@ -706,15 +718,15 @@ the jacket.'
         unset($desc);
     }
 
-     /* 25 Boiler Water Condensate Corrosion */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33,45]) && in_array((int)$data['equipment-type'], [2,3,5,16,17,27,28,39]) && isset($data['water_service'])) {
+    /* 25 Boiler Water Condensate Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33, 45]) && in_array((int)$data['equipment-type'], [2, 3, 5, 16, 17, 27, 28, 39]) && isset($data['water_service'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('Cracks','Localized Pitting corrosion.'
+                array('Cracks', 'Localized Pitting corrosion.'
                 ), 'Inspection Method' =>
-                array('NDE-Visual Inspections. ','NDE-Magnetic Particle.'
+                array('NDE-Visual Inspections. ', 'NDE-Magnetic Particle.'
                 ), 'Prevention' =>
-                array('Proper Material Design. ','Oxygen scavenging treatments typically include catalyzed sodium sulfite or hydrazine depending on the system pressure level along with proper mechanical deaerator operation. ','Amine treatment to eliminate CO2 in condensate return systems.'
+                array('Proper Material Design. ', 'Oxygen scavenging treatments typically include catalyzed sodium sulfite or hydrazine depending on the system pressure level along with proper mechanical deaerator operation. ', 'Amine treatment to eliminate CO2 in condensate return systems.'
                 ));
         $output[] = [
             'output' => 'Boiler Water Condensate Corrosion',
@@ -725,17 +737,17 @@ the jacket.'
             $maximumCorrectedInputs = 3;
         unset($desc);
     }
-      /* 26 CO2 Corrosion */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19]) && in_array((int)$data['equipment-type'], [2,3,5,16,20,21,22,27,28,39]) && isset($data['water_service']) && isset($data['co2-present']) && 
+    /* 26 CO2 Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]) && in_array((int)$data['equipment-type'], [2, 3, 5, 16, 20, 21, 22, 27, 28, 39]) && isset($data['water_service']) && isset($data['carbon_present']) &&
         $data['temperature-max-of-process-or-skin'] <= 300
-) {
+    ) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Localized thinning and/or pitting corrosion'
                 ), 'Inspection Method' =>
-                array('DE-Visual Inspections.',' NDE-Ultrasonic Testing .',' NDE- Radiography.'
+                array('DE-Visual Inspections.', ' NDE-Ultrasonic Testing .', ' NDE- Radiography.'
                 ), 'Prevention' =>
-                array('Proper Material Design SS.',' Corrosion inhibitors to the condensate systems.',' Vapor phase inhibitors may be required to protect against condensing vapors.',' Increasing condensate pH above 6.'
+                array('Proper Material Design SS.', ' Corrosion inhibitors to the condensate systems.', ' Vapor phase inhibitors may be required to protect against condensing vapors.', ' Increasing condensate pH above 6.'
                 ));
         $output[] = [
             'output' => 'CO2 Corrosion',
@@ -746,23 +758,23 @@ the jacket.'
             $maximumCorrectedInputs = 5;
         unset($desc);
     }
-          /* 27 Flue-Gas Dew-Point Corrosion */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,28,29,30,31,32,33]) && ( ( isset($data['sulphur-present']) && $data['temperature-max-of-process-or-skin'] <= 280 )  OR ( isset($data['chloride-present']) && $data['temperature-max-of-process-or-skin'] <= 130 ) )
-) {
+    /* 27 Flue-Gas Dew-Point Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 28, 29, 30, 31, 32, 33]) && ((isset($data['sulphur-present']) && $data['temperature-max-of-process-or-skin'] <= 280) OR (isset($data['chloride-present']) && $data['temperature-max-of-process-or-skin'] <= 130))
+    ) {
         $correctedInputs = 2;
-        if( $data['temperature-max-of-process-or-skin'] <= 280)
+        if ($data['temperature-max-of-process-or-skin'] <= 280)
             $correctedInputs++;
-        if( isset($data['sulphur-present']) )
+        if (isset($data['sulphur-present']))
             $correctedInputs++;
-        if( isset($data['chloride-present']) )
+        if (isset($data['chloride-present']))
             $correctedInputs++;
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('Localized thinning and/or pitting corrosion in CS.',' Surface breaking cracks with crazed surface appearance in SS.'
+                array('Localized thinning and/or pitting corrosion in CS.', ' Surface breaking cracks with crazed surface appearance in SS.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing.',' NDE- Radiography',' NDE-Liquid Penetrant.',' NDE-Visual Inspections.'
+                array('NDE-Ultrasonic Testing.', ' NDE- Radiography', ' NDE-Liquid Penetrant.', ' NDE-Visual Inspections.'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' Maintain the metallic surfaces temperature of the equipment backend above the sulfuric acid dewpoint corrosion temperature.'
+                array('Proper Material Design.', ' Maintain the metallic surfaces temperature of the equipment backend above the sulfuric acid dewpoint corrosion temperature.'
                 ));
         $output[] = [
             'output' => 'Flue-Gas Dew-Point Corrosion',
@@ -775,14 +787,14 @@ the jacket.'
         unset($correctedInputs);
     }
     /* 28 Microbiologically Induced Corrosion (MIC) */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,25,27,28,29,30,31,32,33, 43,45,44,47]) && in_array((int)$data['equipment-type'], [16,17,18,23,24,25,26,27,28,29,30,31,32,33,34,38,39,40])) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 25, 27, 28, 29, 30, 31, 32, 33, 43, 45, 44, 47]) && in_array((int)$data['equipment-type'], [16, 17, 18, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 38, 39, 40])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Localized pitting under deposits or tubercles shielding the organism.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing.',' NDE- Radiography.',' NDE-Visual Inspections.'
+                array('NDE-Ultrasonic Testing.', ' NDE- Radiography.', ' NDE-Visual Inspections.'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' Process Water treatment','high enough flow',' Anti corrosion coating','Monitoring of process  parameters that affect MIC such as cycles of concentration',' biocide residual',' biological activity',' cooling water outlet temperatures','hydrocarbon contamination.'
+                array('Proper Material Design.', ' Process Water treatment', 'high enough flow', ' Anti corrosion coating', 'Monitoring of process  parameters that affect MIC such as cycles of concentration', ' biocide residual', ' biological activity', ' cooling water outlet temperatures', 'hydrocarbon contamination.'
                 ));
         $output[] = [
             'output' => 'Microbiologically Induced Corrosion (MIC)',
@@ -794,14 +806,14 @@ the jacket.'
         unset($desc);
     }
     /* 29 Soil Corrosion */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,38,42]) && in_array((int)$data['equipment-type'], [23,24,25,26,27]) && isset($data['burried-soil-air-cemented'])) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 38, 42]) && in_array((int)$data['equipment-type'], [23, 24, 25, 26, 27]) && isset($data['burried-soil-air-cemented'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('External thinning with localized losses due to pitting.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing.',' NDE- Radiography.',' NDE-Visual Inspections',' Soil potential and resistivity.'
+                array('NDE-Ultrasonic Testing.', ' NDE- Radiography.', ' NDE-Visual Inspections', ' Soil potential and resistivity.'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' Use of special backfill',' Cathodic protection',' Anti corrosion coating.'
+                array('Proper Material Design.', ' Use of special backfill', ' Cathodic protection', ' Anti corrosion coating.'
                 ));
         $output[] = [
             'output' => 'Soil Corrosion',
@@ -812,15 +824,15 @@ the jacket.'
             $maximumCorrectedInputs = 3;
         unset($desc);
     }
-     /* 30 Caustic Corrosion */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,16,17,18,27,41]) && isset($data['caustics-present'])) {
+    /* 30 Caustic Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 27, 41]) && isset($data['caustics-present'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Localized metal loss which may appear as grooves or locally thinned areas.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing.',' NDE- Radiography',' NDE-Visual Inspections.'
+                array('NDE-Ultrasonic Testing.', ' NDE- Radiography', ' NDE-Visual Inspections.'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' Reduce the amount of free caustic and Alkaline producing salts  in the system. Cleaning and maintenance of Burner Management System.'
+                array('Proper Material Design.', ' Reduce the amount of free caustic and Alkaline producing salts  in the system. Cleaning and maintenance of Burner Management System.'
                 ));
         $output[] = [
             'output' => 'Caustic Corrosion',
@@ -832,14 +844,14 @@ the jacket.'
         unset($desc);
     }
     /* 31 Dealloying. process:Cooling water application,  boiler feed water */
-    if (in_array((int)$data['material-type'], [45,35,42]) && in_array((int)$data['equipment-type'], [16,27,38,39])) {
+    if (in_array((int)$data['material-type'], [45, 35, 42]) && in_array((int)$data['equipment-type'], [16, 27, 38, 39])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Significant color change or a deep etched (corroded) appearance.'
                 ), 'Inspection Method' =>
-                array('NDE-Visual Inspections.',' Metallographic examination.'
+                array('NDE-Visual Inspections.', ' Metallographic examination.'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' Add balancing alloy for resistance.'
+                array('Proper Material Design.', ' Add balancing alloy for resistance.'
                 ));
         $output[] = [
             'output' => 'Dealloying. process:Cooling water application,  boiler feed water',
@@ -851,9 +863,8 @@ the jacket.'
         unset($desc);
     }
     /* 32 Graphitic Corrosion. process:Dilute acids, mine water,salt water, soft water, Fire Water. Boiler feed water */
-    if (in_array((int)$data['material-type'], [42]) && in_array((int)$data['equipment-type'], [27]) && data['temperature-max-of-process-or-skin'] < 200 &&
-    (isset($data['water-service'])OR (isset($data['acid-service']) )  )
-) {
+    if (in_array((int)$data['material-type'], [42]) && in_array((int)$data['equipment-type'], [27]) && $data['temperature-max-of-process-or-skin'] < 200 &&
+        (isset($data['water_service']) || (isset($data['acid-service'])))) {
         $correctedInputs = isset($data['water-service']) ? (isset($data['acid-service']) ? 5 : 4) : (isset($data['acid-service']) ? 4 : 3);
         $desc = array(
             'Appearance or Morphology of Damage' =>
@@ -861,7 +872,7 @@ the jacket.'
                 ), 'Inspection Method' =>
                 array('NDE-Acoustic techniques'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' Internal and External coatings and/or cement linings. ','Cathodic protection.',' White Iron is not Susceptible.'
+                array('Proper Material Design.', ' Internal and External coatings and/or cement linings. ', 'Cathodic protection.', ' White Iron is not Susceptible.'
                 ));
         $output[] = [
             'output' => 'Graphitic Corrosion. process:Dilute acids, mine water,salt water, soft water, Fire Water. Boiler feed water',
@@ -873,15 +884,15 @@ the jacket.'
         unset($desc);
         unset($correctedInputs);
     }
-   /* 33 Oxidation.  process: ANY */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,38,42,44,47]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,27,28,29,30,31,32,33]) && data['temperature-max-of-process-or-skin'] >= 1000) {
+    /* 33 Oxidation.  process: ANY */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 38, 42, 44, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 27, 28, 29, 30, 31, 32, 33]) && $data['temperature-max-of-process-or-skin'] >= 1000) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('General wall loss','thinning'
+                array('General wall loss', 'thinning'
                 ), 'Inspection Method' =>
-                array('Real-time Instrument','Skin Thermocouple or Infrared Thermographic Scan Monitoring.'
+                array('Real-time Instrument', 'Skin Thermocouple or Infrared Thermographic Scan Monitoring.'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' IOW Monitoring'
+                array('Proper Material Design.', ' IOW Monitoring'
                 ));
         $output[] = [
             'output' => 'Oxidation.  process: ANY',
@@ -892,15 +903,15 @@ the jacket.'
             $maximumCorrectedInputs = 3;
         unset($desc);
     }
-   /* 34 Sulfidation.  process: Crude,coke,sulphur, fuel gas, feed gas */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,38,42,44,45,47]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,16,17,18,27,28,29,30,31,32,33]) && data['temperature-max-of-process-or-skin'] >= 500 && isset($data['sulphur-present']) ) {
+    /* 34 Sulfidation.  process: Crude,coke,sulphur, fuel gas, feed gas */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 38, 42, 44, 45, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 27, 28, 29, 30, 31, 32, 33]) && $data['temperature-max-of-process-or-skin'] >= 500 && isset($data['sulphur-present'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Uniform thinning but can also occur as localized corrosion or high velocity erosion-corrosion.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing',' NDE- Radiography',' Real-time Instrument',' Skin Thermocouple or Infrared Thermographic Scan Monitoring'
+                array('NDE-Ultrasonic Testing', ' NDE- Radiography', ' Real-time Instrument', ' Skin Thermocouple or Infrared Thermographic Scan Monitoring'
                 ), 'Prevention' =>
-                array('Proper Material Design','High Chromium based alloys',' Clad 300/400 SS',' Alumunium Diffusion treatment.'
+                array('Proper Material Design', 'High Chromium based alloys', ' Clad 300/400 SS', ' Alumunium Diffusion treatment.'
                 ));
         $output[] = [
             'output' => 'Sulfidation.  process: Crude,coke,sulphur, fuel gas, feed gas',
@@ -911,15 +922,15 @@ the jacket.'
             $maximumCorrectedInputs = 4;
         unset($desc);
     }
-   /* 35 Carburization.  process: Coke, ethylene pyrolysis */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21,22,23,25,27,28,29,30,31,32,33,34,44,47]) && in_array((int)$data['equipment-type'], [10,12,13]) && data['temperature-max-of-process-or-skin'] >= 1100) {
+    /* 35 Carburization.  process: Coke, ethylene pyrolysis */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 21, 22, 23, 25, 27, 28, 29, 30, 31, 32, 33, 34, 44, 47]) && in_array((int)$data['equipment-type'], [10, 12, 13]) && $data['temperature-max-of-process-or-skin'] >= 1100) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('At advanced stage, cracking or through wall.','  Loss of ductility and increase in Hardness and ferromagnetism.'
+                array('At advanced stage, cracking or through wall.', '  Loss of ductility and increase in Hardness and ferromagnetism.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing','NDE- Radiography', 'NDE- Magnetic Particle testing',' Hardness Testing.','  Eddy Current. Metallography.'
+                array('NDE-Ultrasonic Testing', 'NDE- Radiography', 'NDE- Magnetic Particle testing', ' Hardness Testing.', '  Eddy Current. Metallography.'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' IOW Monitoring.'
+                array('Proper Material Design.', ' IOW Monitoring.'
                 ));
         $output[] = [
             'output' => 'Carburization.  process: Coke, ethylene pyrolysis',
@@ -930,18 +941,18 @@ the jacket.'
             $maximumCorrectedInputs = 3;
         unset($desc);
     }
-   /* 36 Decarburization.  process: */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19]) && in_array((int)$data['equipment-type'],range(1,39) ) && data['temperature-max-of-process-or-skin'] >= 1100 && isset($data['hydrogen-present']) ) {
+    /* 36 Decarburization.  process: */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]) && in_array((int)$data['equipment-type'], range(1, 39)) && $data['temperature-max-of-process-or-skin'] >= 1100 && isset($data['hydrogen-present'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('At advanced stage',' cracking or through wall','Loss of ductility and increase in Hardness and ferromagnetism.'
+                array('At advanced stage', ' cracking or through wall', 'Loss of ductility and increase in Hardness and ferromagnetism.'
                 ), 'Inspection Method' =>
-                array('NDE- Magnetic Particle testing.',' Hardness Testing.',' Metallography.',' Replication (FMR).'
+                array('NDE- Magnetic Particle testing.', ' Hardness Testing.', ' Metallography.', ' Replication (FMR).'
                 ), 'Prevention' =>
-                array('Proper Material Design',' IOW Monitoring.'
+                array('Proper Material Design', ' IOW Monitoring.'
                 ));
         $output[] = [
-            'output' => 'Decarburization.  process:',
+            'output' => 'Decarburization process',
             'correctedInputs' => 4,
             'Desc' => $desc
         ];
@@ -949,36 +960,36 @@ the jacket.'
             $maximumCorrectedInputs = 4;
         unset($desc);
     }
-       /* 37 Metal Dusting.  process: */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21,22,23,27,28,29,30,31,32,33,44,47]) && in_array((int)$data['equipment-type'],[10,12] ) && data['temperature-max-of-process-or-skin'] >= 900 && data['temperature-max-of-process-or-skin'] <= 1500  && (isset($data['hydrogen-present']) OR isset($data['carbon-present']))) {
+    /* 37 Metal Dusting.  process: */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 21, 22, 23, 27, 28, 29, 30, 31, 32, 33, 44, 47]) && in_array((int)$data['equipment-type'], [10, 12]) && $data['temperature-max-of-process-or-skin'] >= 900 && $data['temperature-max-of-process-or-skin'] <= 1500 && (isset($data['hydrogen-present']) || isset($data['carbon-present']))) {
         $correctedInputs = isset($data['hydrogen-present']) ? (isset($data['carbon-present']) ? 5 : 4) : (isset($data['carbon-present']) ? 4 : 3);
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Pits filled with a crumbly residue of metal oxides and carbides.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing',' NDE- Radiography',' NDE- Visual Testing',' Metal particles from dusting.'
+                array('NDE-Ultrasonic Testing', ' NDE- Radiography', ' NDE- Visual Testing', ' Metal particles from dusting.'
                 ), 'Prevention' =>
-                array('Proper Material Design',' Chemical injection (H2S)  and aluminium diffusion.'
+                array('Proper Material Design', ' Chemical injection (H2S)  and aluminium diffusion.'
                 ));
         $output[] = [
-            'output' => 'Metal Dusting.  process:',
+            'output' => 'Metal Dusting process',
             'correctedInputs' => $correctedInputs,
             'Desc' => $desc
         ];
-        if ($maximumCorrectedInputs < $correctedInput)
+        if ($maximumCorrectedInputs < $correctedInputs)
             $maximumCorrectedInputs = $correctedInputs;
         unset($desc);
         unset($correctedInputs);
     }
-       /* 38 Fuel Ash Corrosion.  process: Fired heater, gas turbine with contaminants */
-    if (in_array((int)$data['material-type'], [6,7,8,9,10,11,12,13,14,15,16,19,20]) && in_array((int)$data['equipment-type'],[1,4,6,10,11,12,13] ) && data['temperature-max-of-process-or-skin'] >= 700 && data['temperature-max-of-process-or-skin'] <= 1130) {
+    /* 38 Fuel Ash Corrosion.  process: Fired heater, gas turbine with contaminants */
+    if (in_array((int)$data['material-type'], [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20]) && in_array((int)$data['equipment-type'], [1, 4, 6, 10, 11, 12, 13]) && $data['temperature-max-of-process-or-skin'] >= 700 && $data['temperature-max-of-process-or-skin'] <= 1130) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Metal loss associated with slagging.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing.',' NDE- Radiography.',' NDE- Visual Testing.'
+                array('NDE-Ultrasonic Testing.', ' NDE- Radiography.', ' NDE- Visual Testing.'
                 ), 'Prevention' =>
-                array('Proper Material Design',' Proper Burner Management maintenance program.',' Clean feed fuel source.'
+                array('Proper Material Design', ' Proper Burner Management maintenance program.', ' Clean feed fuel source.'
                 ));
         $output[] = [
             'output' => 'Fuel Ash Corrosion.  process: Fired heater, gas turbine with contaminants',
@@ -989,23 +1000,23 @@ the jacket.'
             $maximumCorrectedInputs = 3;
         unset($desc);
     }
-       /* 39A Nitriding.  process: team methane-reformers, steam gas cracking (olefin plants) and ammonia synthesis plants */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,25,27,28,29,30,31,32,33]) && in_array((int)$data['equipment-type'], range(1,39) ) && data['temperature-max-of-process-or-skin'] >= 600 && data['temperature-max-of-process-or-skin'] <= 900 && (isset($data['amonia']) OR isset($data['nitrides-present']) OR isset($data['cyanide']) ) ) {
+    /* 39A Nitriding.  process: team methane-reformers, steam gas cracking (olefin plants) and ammonia synthesis plants */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 25, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], range(1, 39)) && $data['temperature-max-of-process-or-skin'] >= 600 && $data['temperature-max-of-process-or-skin'] <= 900 && (isset($data['amonia']) || isset($data['nitrides-present']) || isset($data['cyanide']))) {
         $correctedInputs = 3;
-        if(isset($data['amonia']))
+        if (isset($data['amonia']))
             $correctedInputs++;
-          if(isset($data['nitrides-present']))
+        if (isset($data['nitrides-present']))
             $correctedInputs++;
-          if(isset($data['cyanide']))
+        if (isset($data['cyanide']))
             $correctedInputs++;
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('A change in surface color to a Dull',' dark gray appearance.','Cracking at advnace stages','Preferential grain boundary nitriding may lead to microcracking and embrittlement','Stainless steels may form brittle layers that may crack and spall from thermal cycling or
+                array('A change in surface color to a Dull', ' dark gray appearance.', 'Cracking at advnace stages', 'Preferential grain boundary nitriding may lead to microcracking and embrittlement', 'Stainless steels may form brittle layers that may crack and spall from thermal cycling or
 applied stress.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing.',' NDE- Radiography',' NDE- Visual Testing.','NDE- Liquid Penetrant testing'
+                array('NDE-Ultrasonic Testing.', ' NDE- Radiography', ' NDE- Visual Testing.', 'NDE- Liquid Penetrant testing'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' alloys with 30% to 80% nickel'
+                array('Proper Material Design.', ' alloys with 30% to 80% nickel'
                 ));
         $output[] = [
             'output' => 'Nitriding.  process: team methane-reformers, steam gas cracking (olefin plants) and ammonia synthesis plants',
@@ -1017,26 +1028,26 @@ applied stress.'
         unset($desc);
         unset($correctedInputs);
     }
-      /* 39B Nitriding.  process:*/
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,25,27,28,29,30,31,32,33]) && in_array((int)$data['equipment-type'], range(1,39) ) && data['temperature-max-of-process-or-skin'] >= 900 && (isset($data['amonia']) OR isset($data['nitrides-present']) OR isset($data['cyanide']) ) ) {
+    /* 39B Nitriding.  process:*/
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 25, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], range(1, 39)) && $data['temperature-max-of-process-or-skin'] >= 900 && (isset($data['amonia']) || isset($data['nitrides-present']) || isset($data['cyanide']))) {
         $correctedInputs = 3;
-        if(isset($data['amonia']))
+        if (isset($data['amonia']))
             $correctedInputs++;
-          if(isset($data['nitrides-present']))
+        if (isset($data['nitrides-present']))
             $correctedInputs++;
-          if(isset($data['cyanide']))
+        if (isset($data['cyanide']))
             $correctedInputs++;
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('A change in surface color to a Dull',' dark gray appearance.','Cracking at advnace stages','Preferential grain boundary nitriding may lead to microcracking and embrittlement','Stainless steels may form brittle layers that may crack and spall from thermal cycling or
+                array('A change in surface color to a Dull', ' dark gray appearance.', 'Cracking at advnace stages', 'Preferential grain boundary nitriding may lead to microcracking and embrittlement', 'Stainless steels may form brittle layers that may crack and spall from thermal cycling or
 applied stress.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing.',' NDE- Radiography',' NDE- Visual Testing.','NDE- Liquid Penetrant testing'
+                array('NDE-Ultrasonic Testing.', ' NDE- Radiography', ' NDE- Visual Testing.', 'NDE- Liquid Penetrant testing'
                 ), 'Prevention' =>
-                array('Proper Material Design.',' alloys with 30% to 80% nickel'
+                array('Proper Material Design.', ' alloys with 30% to 80% nickel'
                 ));
         $output[] = [
-            'output' => 'Nitriding.  process:',
+            'output' => 'Nitriding process',
             'correctedInputs' => $correctedInputs,
             'Desc' => $desc
         ];
@@ -1045,15 +1056,15 @@ applied stress.'
         unset($desc);
         unset($correctedInputs);
     }
- /* 40 Chloride Stress Corrosion Cracking (Cl-SCC). process:*/
-    if (in_array((int)$data['material-type'], [26,27,28,29,30,31,32,33]) && in_array((int)$data['equipment-type'], [13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,40,41] ) && data['temperature-max-of-process-or-skin'] >= 140 && isset($data['chloride-present']) && isset($data['excessive-tensile-stress']) ) {
+    /* 40 Chloride Stress Corrosion Cracking (Cl-SCC). process:*/
+    if (in_array((int)$data['material-type'], [26, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 40, 41]) && $data['temperature-max-of-process-or-skin'] >= 140 && isset($data['chloride-present']) && isset($data['excessive-tensile-stress'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Cracks can popagate from process side or externally for Corrosion Under insulation'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing.','NDE- Liquid Penetrant testing.','NDE- Eddy Current'
+                array('NDE-Ultrasonic Testing.', 'NDE- Liquid Penetrant testing.', 'NDE- Eddy Current'
                 ), 'Prevention' =>
-                array('Proper Material Design','Hydrotest Medium with zero/low chloride content + immediate dry-out.',' CUI Coating. ','Remove residual stresses through Material Stress Relief &/OR PWHT'
+                array('Proper Material Design', 'Hydrotest Medium with zero/low chloride content + immediate dry-out.', ' CUI Coating. ', 'Remove residual stresses through Material Stress Relief &/OR PWHT'
                 ));
         $output[] = [
             'output' => 'Chloride Stress Corrosion Cracking (Cl-SCC). process:',

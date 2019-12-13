@@ -236,6 +236,62 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Water service</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="water_service">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Carbon present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="carbon_present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Burried/soil/air/cemented</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="burried-soil-air-cemented">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Acid service</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="acid-service">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Nitrides present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="nitrides-present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Cyanide</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="cyanide">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <div class="field is-grouped">
                             <div class="control">
