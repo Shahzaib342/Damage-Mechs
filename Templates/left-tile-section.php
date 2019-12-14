@@ -397,24 +397,196 @@
                                     </label>
                                 </div>
                             </div>
-<!--                            <div class="column is-one-quarter">-->
-<!--                                <div class="field">-->
-<!--                                    <label class="label">fire/flame present</label>-->
-<!--                                    <label class="switch">-->
-<!--                                        <input type="checkbox" name="fire/flame-present">-->
-<!--                                        <span class="slider round"></span>-->
-<!--                                    </label>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="column is-one-quarter">-->
-<!--                                <div class="field">-->
-<!--                                    <label class="label">Cathodic</label>-->
-<!--                                    <label class="switch">-->
-<!--                                        <input type="checkbox" name="cathodic">-->
-<!--                                        <span class="slider round"></span>-->
-<!--                                    </label>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Amine service</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="amine-service">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">H2S present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="H2S-present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">other chemical contaminants</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="other-chemical-contaminants">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">NH4HS service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="NH4HS-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Ammonium Chloride service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="ammonium-chloride-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Hydrochloric Acid service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="hydrochloric-acid-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">H2S containing hydrocarbons service</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="H2S-containing-hydrocarbons-service">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">HF acid service/Present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="HF-acid-service/Present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Naphthenic acid service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="naphthenic-acid-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Phenol service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="phenol-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Phosphoric Acid service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="phosphoric-acid-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Acidic sour water service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="acidic-sour-water-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Sulfuric Acid service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="sulfuric-acid-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Organic Acid service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="organic-acid-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">sulfide service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="sulfide-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">residual</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="residual">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">applied stress</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="applied-stress">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">(DEA/MDEA) service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="DEA/MDEA-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns switch-toggles">
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">Wet H2S service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="wet-H2S-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="column is-one-quarter">
+                                <div class="field">
+                                    <label class="label">aqueous carbonate service/present</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="aqueous-carbonate-service/present">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <div class="field is-grouped">
                             <div class="control">

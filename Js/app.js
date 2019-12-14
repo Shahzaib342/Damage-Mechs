@@ -107,7 +107,9 @@ $(document).ready(function () {
         'Nickel & Nickel based Alloys',
         'Copper & Copper based Alloys ((brass, bronze, tin, Alloy 400)',
         'A693 (TP630, TP631)',
-        'A286 Stainless Steel'
+        'A286 Stainless Steel',
+        'Alloy C276',
+        'Alloy 20'
     ];
 
     var materialTypeOptions = '';
@@ -156,7 +158,9 @@ $(document).ready(function () {
         'Weld & HAZ -Tube / Tubesheet / Bundle',
         'Weld & HAZ Tray / Baffle',
         'Pumps & Turbines (ROT Equipment)',
-        'Valves'
+        'Valves',
+        'Towers - Cooling Water',
+        'Injection Points'
     ];
 
     var equipmentTypeOptions = '';

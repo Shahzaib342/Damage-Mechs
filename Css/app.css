@@ -1,6 +1,16 @@
 .container .left-tile {
   margin-top: 10px;
 }
+@media only screen and (max-width: 600px) {
+  .container .left-tile {
+    flex-direction: column;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .container .left-tile .tile.is-vertical {
+    width: 100%;
+  }
+}
 .container .left-tile .tile.is-vertical .tile.is-parent {
   padding-right: 0;
 }
@@ -75,6 +85,9 @@
 }
 .container .right-tile .content .content .progress {
   margin-bottom: 0;
+}
+.container .right-tile .content .content button {
+  text-align: left;
 }
 .container .right-tile .content .content .collapsible {
   color: white;

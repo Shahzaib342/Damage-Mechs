@@ -4,8 +4,13 @@
 .container
   .left-tile
     margin-top: 10px
+    @media only screen and (max-width: $breakpoint-mini-screen)
+      flex-direction: column
 
     .tile.is-vertical
+      @media only screen and (max-width: $breakpoint-mini-screen)
+        width: 100%
+
       .tile.is-parent
         padding-right: $pr-0
 
@@ -87,6 +92,9 @@
       .content
         .progress
           margin-bottom: 0
+
+        button
+          text-align: left
 
         .collapsible
           color: white

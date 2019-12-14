@@ -50,7 +50,9 @@ $materialTypes = array(
     'Nickel & Nickel based Alloys',
     'Copper & Copper based Alloys ((brass, bronze, tin, Alloy 400)',
     'A693 (TP630, TP631)',
-    'A286 Stainless Steel'
+    'A286 Stainless Steel',
+    'Alloy C276',
+    'Alloy 20'
 );
 $equipmentTypes = array(
     'Boiler: Convection tubes',
@@ -91,7 +93,9 @@ $equipmentTypes = array(
     'Weld & HAZ -Tube / Tubesheet / Bundle',
     'Weld & HAZ Tray / Baffle',
     'Pumps & Turbines (ROT Equipment)',
-    'Valves'
+    'Valves',
+    'Towers - Cooling Water',
+    'Injection Points'
 );
 
 if (isset($_POST['token'])) {
@@ -196,7 +200,47 @@ function processOutput($data, $materialTypes, $equipmentTypes)
     if (isset($data['ethanol-present']))
         $outputFormat .= 'Ethanol Present: ';
     if (isset($data['sulfate-present']))
-        $outputFormat .= 'Sulfate Present';
+        $outputFormat .= 'Sulfate Present: ';
+    if (isset($data['amine-service']))
+        $outputFormat .= 'Amine service: ';
+    if (isset($data['H2S-present']))
+        $outputFormat .= 'H2S present: ';
+    if (isset($data['other-chemical-contaminants']))
+        $outputFormat .= 'other chemical contaminants: ';
+    if (isset($data['NH4HS-service/present']))
+        $outputFormat .= 'NH4HS service/present: ';
+    if (isset($data['ammonium-chloride-service/present']))
+        $outputFormat .= 'Ammonium Chloride service/present: ';
+    if (isset($data['hydrochloric-acid-service/present']))
+        $outputFormat .= 'Hydrochloric Acid service/present: ';
+    if (isset($data['H2S-containing-hydrocarbons-service']))
+        $outputFormat .= 'H2S containing hydrocarbons service: ';
+    if (isset($data['HF-acid-service/Present']))
+        $outputFormat .= 'HF acid service/Present: ';
+    if (isset($data['naphthenic-acid-service/present']))
+        $outputFormat .= 'Naphthenic acid service/present: ';
+    if (isset($data['phenol-service/present']))
+        $outputFormat .= 'Phenol service/present: ';
+    if (isset($data['phosphoric-acid-service/present']))
+        $outputFormat .= 'Phosphoric Acid service/present: ';
+    if (isset($data['acidic-sour-water-service/present']))
+        $outputFormat .= 'Acidic sour water service/present: ';
+    if (isset($data['sulfuric-acid-service/present']))
+        $outputFormat .= 'Sulfuric Acid service/present: ';
+    if (isset($data['organic-acid-service/present']))
+        $outputFormat .= 'Organic Acid service/present: ';
+    if (isset($data['sulfide-service/present']))
+        $outputFormat .= 'sulfide service/present: ';
+    if (isset($data['residual']))
+        $outputFormat .= 'residual: ';
+    if (isset($data['applied-stress']))
+        $outputFormat .= 'applied stress: ';
+    if (isset($data['DEA/MDEA-service/present']))
+        $outputFormat .= '(DEA/MDEA) service/present: ';
+    if (isset($data['wet-H2S-service/present']))
+        $outputFormat .= 'Wet H2S service/present: ';
+    if (isset($data['aqueous-carbonate-service/present']))
+        $outputFormat .= 'aqueous carbonate service/present';
 
 
     //add all conditions based on which you want to create output
@@ -1098,15 +1142,15 @@ applied stress.'
         unset($desc);
     }
     /* 41 Corrosion Fatigue . process:*/
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,
-        30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,28,38]) && isset($data['cyclic-loading'])) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29,
+            30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 28, 38]) && isset($data['cyclic-loading'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Transgranular brittle cracks propagation of multiple parallel cracks.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing','NDE- Visual Testing.','NDE- Magnetic Particle.'
+                array('NDE-Ultrasonic Testing', 'NDE- Visual Testing.', 'NDE- Magnetic Particle.'
                 ), 'Prevention' =>
-                array('Proper Material design','Material stress-relieving heat treatment (e.g. PWHT)',' Anti Corrosion Coating.'
+                array('Proper Material design', 'Material stress-relieving heat treatment (e.g. PWHT)', ' Anti Corrosion Coating.'
                 ));
         $output[] = [
             'output' => 'Corrosion Fatigue process',
@@ -1118,22 +1162,22 @@ applied stress.'
         unset($desc);
     }
     /* 42 Caustic Stress Corrosion Cracking (Caustic Embrittlement) . process:*/
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33]) && in_array((int)$data['equipment-type'], [1,6,27,41]) &&
-    isset($data['caustics-present']) && !isset($data['PWHT']) && $data['temperature-max-of-process-or-skin'] >= 150 && ( isset($data['excessive-tensile-stress']) || isset($data['excessive-compressive-stress']) || isset($data['cyclic-loading'])  )) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], [1, 6, 27, 41]) &&
+        isset($data['caustics-present']) && !isset($data['PWHT']) && $data['temperature-max-of-process-or-skin'] >= 150 && (isset($data['excessive-tensile-stress']) || isset($data['excessive-compressive-stress']) || isset($data['cyclic-loading']))) {
         $correctInputs = 5;
-        if(isset($data['excessive-tensile-stress']))
+        if (isset($data['excessive-tensile-stress']))
             $correctInputs++;
-        if(isset($data['excessive-compressive-stress']))
+        if (isset($data['excessive-compressive-stress']))
             $correctInputs++;
-        if(isset($data['cyclic-loading']))
+        if (isset($data['cyclic-loading']))
             $correctInputs++;
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('Weblike cracks propagating parallel to the weld & adjacent base metal.','Cracks in the weld deposit or HAZ initiate from local stress raisers.','Typically transgranular cracks in SS.'
+                array('Weblike cracks propagating parallel to the weld & adjacent base metal.', 'Cracks in the weld deposit or HAZ initiate from local stress raisers.', 'Typically transgranular cracks in SS.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing UT/SWUT.','NDE- Visual Testing','NDE- Magnetic Particle.','NDE- Eddy Current.','Acoustic Emmision Testing for crack monitoring.'
+                array('NDE-Ultrasonic Testing UT/SWUT.', 'NDE- Visual Testing', 'NDE- Magnetic Particle.', 'NDE- Eddy Current.', 'Acoustic Emmision Testing for crack monitoring.'
                 ), 'Prevention' =>
-                array('Proper Material design.','Material stress-relieving heat treatment (e.g. PWHT).'
+                array('Proper Material design.', 'Material stress-relieving heat treatment (e.g. PWHT).'
                 ));
         $output[] = [
             'output' => 'Caustic Stress Corrosion Cracking (Caustic Embrittlement) process',
@@ -1146,15 +1190,15 @@ applied stress.'
         unset($correctInputs);
     }
     /* 43 Ammonia Stress Corrosion Cracking. Process:*/
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,45]) && in_array((int)$data['equipment-type'], [16,41,24,25,26,27,15,35,36,37,38]) &&
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 45]) && in_array((int)$data['equipment-type'], [16, 41, 24, 25, 26, 27, 15, 35, 36, 37, 38]) &&
         isset($data['amonia'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('Cracking can be either transgranular or intergranular depending on the environment and stress level.','In base metal, or in/around welds/HAZ for non-PWWT Carbon steel.'
+                array('Cracking can be either transgranular or intergranular depending on the environment and stress level.', 'In base metal, or in/around welds/HAZ for non-PWWT Carbon steel.'
                 ), 'Inspection Method' =>
-                array('NDE-Ultrasonic Testing UT/SWUT- TOFD','NDE- Visual Testing.','NDE- Magnetic Particle','NDE- Eddy Current.','Acoustic Emmision Testing for crack monitoring.'
+                array('NDE-Ultrasonic Testing UT/SWUT- TOFD', 'NDE- Visual Testing.', 'NDE- Magnetic Particle', 'NDE- Eddy Current.', 'Acoustic Emmision Testing for crack monitoring.'
                 ), 'Prevention' =>
-                array('Proper Material design (<70 ksi tensile strength).','Proper welding + PWHT.','Hardness Check for welds <=225 BHN.','For CS, Add small quantity of Water  (+0.3% H20 stream).','Monitor pH of Ammonia in Water. ','Prevent Air / oxygen ingress.'
+                array('Proper Material design (<70 ksi tensile strength).', 'Proper welding + PWHT.', 'Hardness Check for welds <=225 BHN.', 'For CS, Add small quantity of Water  (+0.3% H20 stream).', 'Monitor pH of Ammonia in Water. ', 'Prevent Air / oxygen ingress.'
                 ));
         $output[] = [
             'output' => 'Ammonia Stress Corrosion Cracking Process',
@@ -1166,29 +1210,29 @@ applied stress.'
         unset($desc);
     }
     /* 44 Liquid Metal Embrittlement / Cracking (LME/LMC)*/
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,29,30,31,32,33,35,39,43,44,45,47]) && in_array((int)$data['equipment-type'], [4,11,18,24,26,28,29,30,32,33,34,35,38]) &&
-    ( isset($data['molten-zinc']) ||  isset($data['molten-mercury']) || isset($data['molten-cadmium']) || isset($data['molten-lead']) || isset($data['molten-copper']) ||
-        isset($data['tin']) || isset($data['fire/flame-present'])) ) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 35, 39, 43, 44, 45, 47]) && in_array((int)$data['equipment-type'], [4, 11, 18, 24, 26, 28, 29, 30, 32, 33, 34, 35, 38]) &&
+        (isset($data['molten-zinc']) || isset($data['molten-mercury']) || isset($data['molten-cadmium']) || isset($data['molten-lead']) || isset($data['molten-copper']) ||
+            isset($data['tin']) || isset($data['fire/flame-present']))) {
         $correctInputs = 2;
-        if(isset($data['molten-zinc']))
+        if (isset($data['molten-zinc']))
             $correctInputs++;
-        if(isset($data['molten-mercury']))
+        if (isset($data['molten-mercury']))
             $correctInputs++;
-        if(isset($data['molten-cadmium']))
+        if (isset($data['molten-cadmium']))
             $correctInputs++;
-        if(isset($data['molten-lead']))
+        if (isset($data['molten-lead']))
             $correctInputs++;
-        if(isset($data['molten-copper']))
+        if (isset($data['molten-copper']))
             $correctInputs++;
-        if(isset($data['tin']))
+        if (isset($data['tin']))
             $correctInputs++;
-        if(isset($data['fire/flame-present']))
+        if (isset($data['fire/flame-present']))
             $correctInputs++;
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Brittle Cracking can be either transgranular or intergranular'
                 ), 'Inspection Method' =>
-                array('NDE- Magnetic Particle.','NDE- Eddy Current.','NDE-Liquid Penetrant testing.','Metallography.'
+                array('NDE- Magnetic Particle.', 'NDE- Eddy Current.', 'NDE-Liquid Penetrant testing.', 'Metallography.'
                 ), 'Prevention' =>
                 array('LME/LMC can only be prevented by protecting metal substrates from coming into contact with the low melting metal.'
                 ));
@@ -1203,20 +1247,20 @@ applied stress.'
         unset($correctInputs);
     }
     /* 45 Hydrogen Embrittlement (HE) */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21,22,23,24,25,35,44,47]) && in_array((int)$data['equipment-type'], [1,2,3,4,5,6,7,8,9,11,18,24,26,27,28,29,30,31,32,33,35,36,37,38]) &&
-        $data['temperature-max-of-process-or-skin'] > 60 && $data['temperature-max-of-process-or-skin'] <=300 && (isset($data['hydrogen-present']) || isset($data['cathodic']) ) ) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 21, 22, 23, 24, 25, 35, 44, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 18, 24, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38]) &&
+        $data['temperature-max-of-process-or-skin'] > 60 && $data['temperature-max-of-process-or-skin'] <= 300 && (isset($data['hydrogen-present']) || isset($data['cathodic']))) {
         $correctInputs = 3;
-        if(isset($data['cathodic']))
+        if (isset($data['cathodic']))
             $correctInputs++;
-        if(isset($data['hydrogen-present']))
+        if (isset($data['hydrogen-present']))
             $correctInputs++;
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('Sub-surface','Surface cracking.'
+                array('Sub-surface', 'Surface cracking.'
                 ), 'Inspection Method' =>
-                array('NDE- Magnetic Particle.','NDE- Eddy Current.','NDE-Liquid Penetrant testing.','NDE-Ultrasonic examination.'
+                array('NDE- Magnetic Particle.', 'NDE- Eddy Current.', 'NDE-Liquid Penetrant testing.', 'NDE-Ultrasonic examination.'
                 ), 'Prevention' =>
-                array('Proper material and welding design.','Low hydrogen elctrodes. ','PWHT- stress Relief'
+                array('Proper material and welding design.', 'Low hydrogen elctrodes. ', 'PWHT- stress Relief'
                 ));
         $output[] = [
             'output' => 'Hydrogen Embrittlement (HE)',
@@ -1229,15 +1273,15 @@ applied stress.'
         unset($correctInputs);
     }
     /* 46 Ethanol Stress Corrosion Cracking (SCC) (HE) */
-    if (in_array((int)$data['material-type'], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19]) && in_array((int)$data['equipment-type'], [14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33]) &&
-     isset($data['excessive-tensile-stress']) && isset($data['ethanol-present']) ) {
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]) && in_array((int)$data['equipment-type'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]) &&
+        isset($data['excessive-tensile-stress']) && isset($data['ethanol-present'])) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
                 array('Cracks that are parallel to the weld or transverse to the weld.'
                 ), 'Inspection Method' =>
-                array('NDE- Magnetic Particle','NDE-Liquid Penetrant testing','NDE-Ultrasonic examination.'
+                array('NDE- Magnetic Particle', 'NDE-Liquid Penetrant testing', 'NDE-Ultrasonic examination.'
                 ), 'Prevention' =>
-                array('Proper material and welding design. ','PWHT- stress Relief.'
+                array('Proper material and welding design. ', 'PWHT- stress Relief.'
                 ));
         $output[] = [
             'output' => 'Ethanol Stress Corrosion Cracking (SCC)',
@@ -1250,14 +1294,14 @@ applied stress.'
     }
     /* 47 Sulfate Stress Corrosion Cracking. Process: Cooling Water */
     if (in_array((int)$data['material-type'], [45]) && in_array((int)$data['equipment-type'], [16]) &&
-        isset($data['sulfate-present']) && isset($data['water_service']) && $data['years-in-service'] >= 10 ) {
+        isset($data['sulfate-present']) && isset($data['water_service']) && $data['years-in-service'] >= 10) {
         $desc = array(
             'Appearance or Morphology of Damage' =>
-                array('Surface Cracks','single or highly branched transgranular.'
+                array('Surface Cracks', 'single or highly branched transgranular.'
                 ), 'Inspection Method' =>
-                array('NDE- Visual Testing','NDE- Eddy Current.','NDE-Liquid Penetrant testing.'
+                array('NDE- Visual Testing', 'NDE- Eddy Current.', 'NDE-Liquid Penetrant testing.'
                 ), 'Prevention' =>
-                array('Proper material and welding design.','Periodic cleaning.'
+                array('Proper material and welding design.', 'Periodic cleaning.'
                 ));
         $output[] = [
             'output' => 'Sulfate Stress Corrosion Cracking. Process: Cooling Water',
@@ -1268,362 +1312,586 @@ applied stress.'
             $maximumCorrectedInputs = 5;
         unset($desc);
     }
+    /* 48A Moderate Amine Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]) && in_array((int)$data['equipment-type'], [19, 20, 21, 22, 27, 29, 30, 33]) &&
+        $data['temperature-max-of-process-or-skin'] < 220 && isset($data['amine-service']) || (isset($data['carbon_present']) || isset($data['H2S-present'])
+            || isset($data['other-chemical-contaminants'])
+        )) {
+        $correctInputs = 0;
+        if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]))
+            $correctInputs++;
+        if (in_array((int)$data['equipment-type'], [19, 20, 21, 22, 27, 29, 30, 33]))
+            $correctInputs++;
+        if ($data['temperature-max-of-process-or-skin'] < 220)
+            $correctInputs++;
+        if (isset($data['amine-service']))
+            $correctInputs++;
+        if (isset($data['carbon_present']))
+            $correctInputs++;
+        if (isset($data['H2S-present']))
+            $correctInputs++;
+        if (isset($data['other-chemical-contaminants']))
+            $correctInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and/or localized wall loss (thinning) corrosion or localized under-deposit attack (Increases with Concentration & Temp)'
+                ), 'Inspection Method' =>
+                array('NDE- Visual Inspection', 'NDE-UT Inspection.'
+                ), 'Prevention' =>
+                array('Proper operation of the amine system.', 'Chemical injection of Corrosion inhibitors.', 'Proper Material design; SS (300 series) is highly resistant.'
+                ));
+        $output[] = [
+            'output' => 'Moderate Amine Corrosion',
+            'correctedInputs' => $correctInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctInputs)
+            $maximumCorrectedInputs = $correctInputs;
+        unset($desc);
+        unset($correctInputs);
+    }
+    /* 48B Severe Amine Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]) && in_array((int)$data['equipment-type'], [19, 20, 21, 22, 27, 29, 30, 33]) &&
+        $data['temperature-max-of-process-or-skin'] >= 220 && isset($data['amine-service']) || (isset($data['carbon_present']) || isset($data['H2S-present'])
+            || isset($data['other-chemical-contaminants'])
+        )) {
+        $correctInputs = 0;
+        if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19]))
+            $correctInputs++;
+        if (in_array((int)$data['equipment-type'], [19, 20, 21, 22, 27, 29, 30, 33]))
+            $correctInputs++;
+        if ($data['temperature-max-of-process-or-skin'] >= 220)
+            $correctInputs++;
+        if (isset($data['amine-service']))
+            $correctInputs++;
+        if (isset($data['carbon_present']))
+            $correctInputs++;
+        if (isset($data['H2S-present']))
+            $correctInputs++;
+        if (isset($data['other-chemical-contaminants']))
+            $correctInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and/or localized wall loss (thinning) corrosion or localized under-deposit attack (Increases with Concentration & Temp)'
+                ), 'Inspection Method' =>
+                array('NDE- Visual Inspection', 'NDE-UT Inspection.'
+                ), 'Prevention' =>
+                array('Proper operation of the amine system.', 'Chemical injection of Corrosion inhibitors.', 'Proper Material design; SS (300 series) is highly resistant.'
+                ));
+        $output[] = [
+            'output' => 'Severe Amine Corrosion',
+            'correctedInputs' => $correctInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctInputs)
+            $maximumCorrectedInputs = $correctInputs;
+        unset($desc);
+        unset($correctInputs);
+    }
+    /* 49A Ammonium Bisulfide Corrosion (Alkaline Sour Water) */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 21, 22, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 43, 44, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] >= 120 && $data['temperature-max-of-process-or-skin'] <= 150 &&
+        (isset($data['NH4HS-service/present']) || isset($data['H2S-present']))
+    ) {
+        $correctInputs = 3;
+        if (isset($data['NH4HS-service/present']))
+            $correctInputs++;
+        if (isset($data['H2S-present']))
+            $correctInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and/or localized wall loss (thinning) or localized under-deposit corrosion'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection', 'NDE- Radiography', 'NDE- Eddy Current Inspection.', 'IRIS Infrared Inspection scans.'
+                ), 'Prevention' =>
+                array('Proper Material design', 'Water flushing.'
+                ));
+        $output[] = [
+            'output' => 'Ammonium Bisulfide Corrosion (Alkaline Sour Water)',
+            'correctedInputs' => $correctInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctInputs)
+            $maximumCorrectedInputs = $correctInputs;
+        unset($desc);
+        unset($correctInputs);
+    }
+    /* 49B Aggressive Ammonium Bisulfide Corrosion (Alkaline Sour Water) */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 21, 22, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 43, 44, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] > 150 &&
+        (isset($data['NH4HS-service/present']) || isset($data['H2S-present'])) && isset($data['cyanide'])
+    ) {
+        $correctInputs = 4;
+        if (isset($data['NH4HS-service/present']))
+            $correctInputs++;
+        if (isset($data['H2S-present']))
+            $correctInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and/or localized wall loss (thinning) or localized under-deposit corrosion'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection', 'NDE- Radiography', 'NDE- Eddy Current Inspection.', 'IRIS Infrared Inspection scans.'
+                ), 'Prevention' =>
+                array('Proper Material design', 'Water flushing.'
+                ));
+        $output[] = [
+            'output' => 'Aggressive Ammonium Bisulfide Corrosion (Alkaline Sour Water)',
+            'correctedInputs' => $correctInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctInputs)
+            $maximumCorrectedInputs = $correctInputs;
+        unset($desc);
+        unset($correctInputs);
+    }
+    /* 50 Ammonium Chloride Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43, 44, 45, 46, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        (isset($data['ammonium-chloride-service/present']) || isset($data['amine-service']))
+    ) {
+        $correctInputs = 2;
+        if (isset($data['ammonium-chloride-service/present']))
+            $correctInputs++;
+        if (isset($data['amine-service']))
+            $correctInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and/or localized corrosion', 'often pitting', 'Damage Increases with Concentration & Temp.'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection.', 'NDE- Radiography inspection.', 'Process PH and composition analysis.	'
+                ), 'Prevention' =>
+                array(' Proper Material design', 'Alloys that are more pitting resistant will have improved resistance to ammonium chloride salts.'
+                ));
+        $output[] = [
+            'output' => 'Ammonium Chloride Corrosion',
+            'correctedInputs' => $correctInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctInputs)
+            $maximumCorrectedInputs = $correctInputs;
+        unset($desc);
+        unset($correctInputs);
+    }
+    /* 51 Hydrochloric Acid (HCl) Corrosion */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        isset($data['hydrochloric-acid-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and/or  localized wall loss (thinning) corrosion or localized under-deposit attack', 'Pitting attack and possible cracking (CSCC) of SS (300/400 series)', 'Damage Increases with  
+Concentration & Temp.	'
+                ), 'Inspection Method' =>
+                array('NDE- Radiography inspection', 'Process PH and composition analysis.'
+                ), 'Prevention' =>
+                array(' Process controls of acid constituents and carryover / excursions.', 'Water flushing.', 'Chemical injection of Corrosion inhibitors.'
+                ));
+        $output[] = [
+            'output' => 'Hydrochloric Acid (HCl) Corrosion',
+            'correctedInputs' => 3,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 3)
+            $maximumCorrectedInputs = 3;
+        unset($desc);
+    }
+    /* 52 High Temp H2/H2S Corrosion  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 25, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], [17, 18, 19, 20, 21, 22, 27, 28, 29, 30, 31, 32, 33]) &&
+        $data['temperature-max-of-process-or-skin'] > 500 && (isset($data['H2S-present']) || isset($data['H2S-containing-hydrocarbons-service']))
+    ) {
+        $correctedInputs = 3;
+        if (isset($data['H2S-containing-hydrocarbons-service']))
+            $correctedInputs++;
+        if (isset($data['H2S-present']))
+            $correctedInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General wall loss (thinning) corrosion.', '(Increases with Concentration & Temp)'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection', 'NDE- Radiography inspection.', 'DE-Visual Inspection'
+                ), 'Prevention' =>
+                array(' Proper Material design: High chromium content alloy or 300 Series SS.', 'SS-304L,', '316L,', '321 and 347 are highly resistant.'
+                ));
+        $output[] = [
+            'output' => 'High Temp H2/H2S Corrosion ',
+            'correctedInputs' => $correctedInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctedInputs)
+            $maximumCorrectedInputs = $correctedInputs;
+        unset($desc);
+        unset($correctedInputs);
+    }
+    /* 53 Hydrofluoric (HF) Acid Corrosion  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 25, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] > 150 && isset($data['HF-acid-service/Present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General or severe Localized thinning. ', ' Significant fouling.', ' Cracking due to hydrogen stress cracking', 'blistering and/or HIC/SOHIC. ', 'Damage Increases with Concentration & Temp.'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection', 'NDE- Radiography inspection.'
+                ), 'Prevention' =>
+                array(' Proper Material design.', ' Minimize water', 'oxygen', 'sulfur and other contaminants in the feed.'
+                ));
+        $output[] = [
+            'output' => 'Hydrofluoric (HF) Acid Corrosion',
+            'correctedInputs' => 4,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 4)
+            $maximumCorrectedInputs = 4;
+        unset($desc);
+    }
+    /* 54A Slight-Moderate Naphthenic Acid Corrosion (NAC)	  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] > 425 && $data['temperature-max-of-process-or-skin'] <= 750 && isset($data['naphthenic-acid-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Localized corrosion', ' pitting corrosion', 'flow induced grooving. (Increases with Concentration & Temp)	'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection.', 'NDE- Radiography inspection', 'Hydrogen probes.'
+                ), 'Prevention' =>
+                array(' Proper Materials and feed composition.', 'High Molybdenum alloys.'
+                ));
+        $output[] = [
+            'output' => 'Slight-Moderate Naphthenic Acid Corrosion (NAC)',
+            'correctedInputs' => 4,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 4)
+            $maximumCorrectedInputs = 4;
+        unset($desc);
+    }
+    /* 54B Sever Naphthenic Acid Corrosion (NAC)	  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] > 750 && isset($data['naphthenic-acid-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Localized corrosion', ' pitting corrosion', 'flow induced grooving. (Increases with Concentration & Temp)	'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection.', 'NDE- Radiography inspection', 'Hydrogen probes.'
+                ), 'Prevention' =>
+                array(' Proper Materials and feed composition.', 'High Molybdenum alloys.'
+                ));
+        $output[] = [
+            'output' => 'Sever Naphthenic Acid Corrosion (NAC)	',
+            'correctedInputs' => 4,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 4)
+            $maximumCorrectedInputs = 4;
+        unset($desc);
+    }
+    /* 55A Moderate Phenol (Carbolic Acid) Corrosion	  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33, 48]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] == 250 && isset($data['phenol-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and/localized corrosion', '(Increases with Concentration & Temp)	'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection.', 'NDE- Radiography inspection.', 'ER corrosion probes.'
+                ), 'Prevention' =>
+                array('Proper Material design.', 'Maintain temperature 30 degrees above the dew point.'
+                ));
+        $output[] = [
+            'output' => 'Moderate Phenol (Carbolic Acid) Corrosion',
+            'correctedInputs' => 4,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 4)
+            $maximumCorrectedInputs = 4;
+        unset($desc);
+    }
+    /* 55B Severe Phenol (Carbolic Acid) Corrosion	  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33, 48]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] > 450 && isset($data['phenol-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and/localized corrosion', '(Increases with Concentration & Temp)	'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection.', 'NDE- Radiography inspection.', 'ER corrosion probes.'
+                ), 'Prevention' =>
+                array('Proper Material design.', 'Maintain temperature 30 degrees above the dew point.'
+                ));
+        $output[] = [
+            'output' => 'Severe Phenol (Carbolic Acid) Corrosion',
+            'correctedInputs' => 4,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 4)
+            $maximumCorrectedInputs = 4;
+        unset($desc);
+    }
+    /* 56 Phosphoric Acid Corrosion	  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 19, 27, 28, 29, 30, 31, 32, 33, 49]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] > 120 && isset($data['phosphoric-acid-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General or localized thinning of carbon steel.', '(Increases with Concentration & Temp)'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection.', 'NDE- Radiography inspection.', 'ER corrosion probes.'
+                ), 'Prevention' =>
+                array('Proper Material design.'
+                ));
+        $output[] = [
+            'output' => 'Phosphoric Acid Corrosion',
+            'correctedInputs' => 4,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 4)
+            $maximumCorrectedInputs = 4;
+        unset($desc);
+    }
+    /* 57 Sour Water Corrosion (Acidic)		  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1, 5, 16, 19]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        isset($data['acidic-sour-water-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and/or  localized wall loss (thinning) corrosion or localized under-deposit attack', 'Pitting attack and possible cracking (CSCC) of SS (300/400 series).', ' (Increases with Concentration &  
+Temp)	'
+                ), 'Inspection Method' =>
+                array(' NDE-Ultrasonic Inspection', 'NDE- Radiography inspection.'
+                ), 'Prevention' =>
+                array('Proper Material design', 'Minimize water', 'oxygen', 'sulfur and other contaminants in the feed.'
+                ));
+        $output[] = [
+            'output' => 'Sour Water Corrosion (Acidic)	',
+            'correctedInputs' => 3,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 3)
+            $maximumCorrectedInputs = 3;
+        unset($desc);
+    }
+    /* 58 Sulfuric Acid Corrosion  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 29, 42]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        isset($data['sulfuric-acid-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and localized corrosion', 'Grooving in low flow/stagnant fluid areas.', ' HAZ are particularly susceptible.'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection.', 'NDE- Radiography inspection.', 'ER corrosion probes.'
+                ), 'Prevention' =>
+                array('Chemical injection of Corrosion inhibitors (caustics).', 'Proper Material design (Alloy 20, Alloy 904L and Alloy C-276).', 'Proper operation and IOW (flow rate)'
+                ));
+        $output[] = [
+            'output' => 'Sulfuric Acid Corrosion',
+            'correctedInputs' => 3,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 3)
+            $maximumCorrectedInputs = 3;
+        unset($desc);
+    }
+    /* 59 Aqueous Organic Acid Corrosion  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        isset($data['organic-acid-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('General and localized corrosion(Thinning).', 'Smooth Groove profile (Increases with Concentration & Temp).'
+                ), 'Inspection Method' =>
+                array('NDE-Ultrasonic Inspection', 'NDE- Radiography inspection.'
+                ), 'Prevention' =>
+                array('Chemical injection of Corrosion inhibitors', 'Proper Material design (Corrosion resistant alloys).'
+                ));
+        $output[] = [
+            'output' => 'Aqueous Organic Acid Corrosion',
+            'correctedInputs' => 3,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 3)
+            $maximumCorrectedInputs = 3;
+        unset($desc);
+    }
+    /* 60 Polyphonic Acid Stress Corrosion Cracking (PASCC)  */
+    if (in_array((int)$data['material-type'], [21, 22, 23, 27, 28, 29, 30, 31, 32, 33]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] >= 750 && $data['temperature-max-of-process-or-skin'] <= 1500 &&
+        (isset($data['sulfuric-acid-service/present']) || isset($data['sulfide-service/present'])) && (isset($data['residual']) ||
+            isset($data['applied-stress']))
+    ) {
+        $correctedInputs = 3;
+        if (isset($data['sulfuric-acid-service/present']))
+            $correctedInputs++;
+        if (isset($data['sulfide-service/present']))
+            $correctedInputs++;
+        if (isset($data['residual']))
+            $correctedInputs++;
+        if (isset($data['applied-stress']))
+            $correctedInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Cracking (Intergranular)', 'Usually around the Weld HAZ'
+                ), 'Inspection Method' =>
+                array('NDE- Liquid Penetrant.'
+                ), 'Prevention' =>
+                array('Proper Material design', 'PWHT all carbon steel welds'
+                ));
+        $output[] = [
+            'output' => 'Polyphonic Acid Stress Corrosion Cracking (PASCC)',
+            'correctedInputs' => $correctedInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctedInputs)
+            $maximumCorrectedInputs = $correctedInputs;
+        unset($desc);
+        unset($correctedInputs);
+    }
+    /* 61 Amine Stress Corrosion Cracking  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        !isset($data['PWHT']) && isset($data['amine-service']) && isset($data['DEA/MDEA-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Surface breaking- Cracking. (Usually parallel to Weld and  HAZ)'
+                ), 'Inspection Method' =>
+                array('NDE- Liquid Penetrant', 'NDE-Ultrasonic Inspection. '
+                ), 'Prevention' =>
+                array('Proper Material design', 'PWHT all carbon steel welds'
+                ));
+        $output[] = [
+            'output' => 'Amine Stress Corrosion Cracking',
+            'correctedInputs' => 5,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 5)
+            $maximumCorrectedInputs = 5;
+        unset($desc);
+    }
+    /* 62 Wet H2S Damage (Blistering/HIC/SOHIC/SSC)  */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] > 300 && isset($data['wet-H2S-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Hydrogen blisters may appear as Bulges on the ID', 'inside the wall thickness  or on the OD surface of the steel', ' HIC', 'SOHIC and SSC are cracks propagating usually around the Weld and weld HAZ and may be layered'
+                ), 'Inspection Method' =>
+                array('NDE-Visual inspection', 'NDE-Ultrasonic Inspection.', 'NDE- Radiography inspection. ', 'NDE- Eddy Current Inspection. '
+                ), 'Prevention' =>
+                array('Proper Material and welding design. Preheat', 'PWHT and hardness control using stress relief (Max 200HB )', 'Protective coating' . 'Maintain strict IOWs.'
+                ));
+        $output[] = [
+            'output' => 'Wet H2S Damage (Blistering/HIC/SOHIC/SSC)',
+            'correctedInputs' => 4,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 4)
+            $maximumCorrectedInputs = 4;
+        unset($desc);
+    }
+    /* 63 Hydrogen Stress Cracking - HF */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        isset($data['HF-acid-service/Present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Surface breaking and cracks in any form around welds and HAZ'
+                ), 'Inspection Method' =>
+                array('NDE- Magnetic Particle', 'Hardness testing.'
+                ), 'Prevention' =>
+                array('Proper Material and welding design', 'PWHT and hardness control using stress relief heat treatments procedures.'
+                ));
+        $output[] = [
+            'output' => 'Hydrogen Stress Cracking - HF',
+            'correctedInputs' => 3,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 3)
+            $maximumCorrectedInputs = 3;
+        unset($desc);
+    }
 
-    /*  LOGIC 1-66 (1-47 updated)
+    /* 64 Carbonate Stress Corrosion Cracking (ACSCC). */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        isset($data['aqueous-carbonate-service/present'])
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Surface breaking and cracks in any form around welds and HAZ'
+                ), 'Inspection Method' =>
+                array('NDE- Magnetic Particle', 'Hardness testing.'
+                ), 'Prevention' =>
+                array('Proper Material and welding design', 'Application of a post-fabrication stress-relieving heat treatment', 'Periodic cleaning with water'
+                ));
+        $output[] = [
+            'output' => 'Carbonate Stress Corrosion Cracking (ACSCC)',
+            'correctedInputs' => 3,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 3)
+            $maximumCorrectedInputs = 3;
+        unset($desc);
+    }
 
-// (1A) Graphitization
-if Equipment Type=  (11,12,13,27,16,17,18,32) AND Material Type= (1,2,3,4,5,6,7) AND 1000>=Temp>=800,
-"Damage Mechanism -  Slight - Moderate Graphitization [Mechanical and Metallurgical Failure Mechanism]"
-"Inspection Methodology - Metallographic techniques."
-"Damage Appearance / Morphology -Loss in creep strength.  Formation of microfissuring/microvoid formation resulting into subsurface cracking or surface connected cracking."
-"Prevention - Proper Material Selection. Chromium containing low alloy steels for long-term operation above 800°F (427°C) is recommended. IOW Monitoring."
+    /* 65 High Temperature Hydrogen Attack (HTHA) */
+    if (in_array((int)$data['material-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        isset($data['hydrogen-present']) && $data['years-in-service'] > 10 && $data['internal-pressure'] > 700 && $data['temperature-max-of-process-or-skin'] > 550
+    ) {
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('surface  and Internal decarburization of Steel', 'methane formation and result in bubbles/cavities microfissures and fissures that may combine to form cracks.'
+                ), 'Inspection Method' =>
+                array('Ultrasonic techniques using a combination of velocity ratio.', ' Metallography techniques'
+                ), 'Prevention' =>
+                array('Proper Material and welding design.', 'Use alloy steels with chromium and molybdenum', 'Maintain strict IOWs.'
+                ));
+        $output[] = [
+            'output' => 'High Temperature Hydrogen Attack (HTHA)',
+            'correctedInputs' => 6,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < 6)
+            $maximumCorrectedInputs = 6;
+        unset($desc);
+    }
 
-//(1B) Graphitization
-if Equipment Type= (11,12,13,27,16,17,18,32) AND Material Type= (1,2,3,4,5,6,7) AND 1100<=Temp>1000 AND Years in service>=5,
- "Damage Mechanism -  Sever Graphitization [Mechanical and Metallurgical Failure Mechanism]"
-"Inspection Methodology - Metallographic techniques."
-"Damage Appearance / Morphology -Loss in creep strength.  Formation of  microfissuring/microvoid formation resulting into subsurface cracking or surface connected cracking."
-"Prevention - Proper Material Selection. Chromium containing low alloy steels for long-term operation above 800°F (427°C) is recommended. IOW Monitoring."
-
-// (2A) Softening
-if Equipment Type= (1,6,10,11,12,13,27,16,18,32) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,4,15,16,17,18) AND 1300>Temp>850,
-"Damage Mechanism -  Slight - Moderate Softening (Spheroidization) [Mechanical and Metallurgical Failure Mechanism]"
-"Inspection Methodology - "Inspection Methodology - Metallographic techniques"
-"Damage Appearance / Morphology -  Pearlitic phase gradual transformation from partial to complete spheroidization"
-"Prevention - Proper IOW Monitoring. Minimizing long-term exposure to elevated temperatures. IOW Monitoring."
-
-// (2B) Softening
-if Equipment Type= (11,12,13,27,16,17,18,32) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,4,15,16,17,18) AND 1400>=Temp>=1300,
-"Damage Mechanism -  Sever Softening (Spheroidization) [Mechanical and Metallurgical Failure Mechanism]"
-"Inspection Methodology - "Inspection Methodology - Metallographic techniques"
-"Damage Appearance / Morphology -  Pearlitic phase gradual transformation from partial to complete spheroidization"
-"Prevention - Proper IOW Monitoring. Minimizing long-term exposure to elevated temperatures. IOW Monitoring."
-
-// (3) Temper Embrittlement
-if Equipment Type= (10,11,12,13,16,17,18,32,33) AND Material Type= (1,2,6-14,19) AND  1100>=Temp>650,
-"Damage Mechanism -  Temper Embrittlement [Mechanical and Metallurgical Failure Mechanism]"
-"Inspection Methodology - Charpy V-notch Impact test
-"Damage Appearance / Morphology - Brittle fracture. Intergranular cracking in severe cases. Shift in the ductile-to-brittle transition temperature with negligible effects on the upper shelf energy."
-"Prevention - Proper Material Design (PWHT, low level of Arsenics, Manganese, Silicon, Tin, Phosphorus in Metal & Weld electrode. IOW Monitoring."
-
-// (4) Strain Aging
-if Equipment Type= (8,9,11,18,24,26, 28,29,30,31,32,33, 35) AND Material Type= (1,2,6) AND  Temp>=450 AND thickness>=1 AND PWHT=false;
-"Damage Mechanism - Strain Aging"
-"Inspection Methodology - None"
-"Damage Appearance / Morphology - Brittle cracks leading to fracture"
-"Prevention - PWHT repaired welds, Change to newer Steel. IOW Monitoring."
-
-// (5) 885°F (475°C) Embrittlement
-if Equipment Type= (16,22,35,36,37) AND Material Type= (25,26)  AND 1000>Temp>=600,
-"Damage Mechanism - 885°F (475°C) Embrittlement"
-"Inspection Method - Impact Testing. Bend Testing"
-"Damage Appearance / Morphology - Loss of toughness and Increased hardness"
-"Prevention - Use low ferrite or non-ferritic alloys. Avoid exposing to embrittling temperature range. IOW Monitoring."
-
-// (6) Sigma Phase Embrittlement
-if Equipment Type= (6,10,12,13,16,27,36,39) AND Material Type=  (25,26,27,28,29,30,31,32,33,34) AND 1700>=Temp>=1000
-"Damage Mechanism - Sigma Phase Embrittlement "
-"Inspection Method - Metallographic examination and impact testing"
-"Damage Appearance / Morphology -Cracking, Welds & High Stress areas are more susceptible."
-"Prevention - Proper Material Selection. Avoid exposing to the embrittling temperature range. PWHT."
-
-//(7) Brittle Fracture
-if Equipment Type= (14,15,16,17,18,19,20,21,22,24,25,26,27,28,29,30,31,32,33,40) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,4,15,16,19,25)  AND Years in service >=30 AND excess residual stress=true;
-"Damage Mechanism - Brittle Fracture"
-"Inspection Method - Impact test."
-"Damage Appearance / Morphology - Cracks (Straight, non-branching, and no ductility / plastic deformation)
-"Prevention -Proper Material Selection and Heat treatment,  Strict IOWs especially during Hydrotest & Startup/Shutdown"
-
-//(8) Creep & Stress Rupture
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,4,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,4,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47)  AND Temp>=Creep Temp {check thee material creep temp if available or ignore},
-"Damage Mechanism -Creep and Stress Rupture "
-"Inspection Method - NDE-Ultrasonic Testing, NDE-Radiographic Testing, NDE-Eddy Current Testing, NDE-Dimensional measurements, NDE-Replication, Electron metallography (Early stage / Validate Damage)"
-"Damage Appearance / Morphology - At Creep temperature threshold limits, deformation may be observed as well as Creep cracking.  Creep voids, fissuring and cracks around the grain boundaries at later stages."
-"Prevention - Proper Material Selection. Avoid exposing to temperature above Creep threshold. IOW Monitoring."
-
-// (9) Thermal Fatigue
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,4,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,4,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47)   AND Thermal Cycle=(True);
-"Damage Mechanism -Thermal Fatigue "
-"Inspection Method - NDE-Visual Inspections, NDE-Magnetic Particle, NDE-Liquid Penetrant. NDE-Ultrasonic Testing. "
-"Damage Appearance / Morphology -Cracks usually initiate on the surface of the component and propagate transverse to the stress direction. "
-"Prevention -Design and operation to minimize thermal stresses and thermal cycling. IOW Monitoring. "
-
-// (10) Short Term Overheating– Stress Rupture
-if Equipment Type= (1,6,10,12,13) AND Material Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,36,37,39,43,44,45,46,47)  AND Intermittent Overheating=(True) AND temp>=1000
-"Damage Mechanism - Short Term Overheating "
-"Inspection Method -NDE Visual examination, Real-time Instrument- Skin Thermocouple."
-"Damage Appearance / Morphology -Localized deformation or bulging on the order of 3% to 10% or more and Stress Rupture."
-"Prevention -Minimize localized temperature excursions. IOW Monitoring."
-
-// (11)  Steam Blanketing
-if Equipment Type= (1,6,10,12,13) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,4,15,16,19)  AND Intermittent Overheating=(True);
-"Damage Mechanism -  Steam Blanketing"
-"Inspection Method -NDE Visual examination, Real-time Instrument- Skin Thermocouple or Infrared Scan Monitoring "
-"Damage Appearance / Morphology -Open burst with the fracture edges, bulging drawn to a near knife-edge "
-"Prevention -Properly maintained to prevent flame impingement, Proper burner management system maintenance to minimize flame impingement."
-
-// (12) Dissimilar Metal Weld (DMW) Cracking
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,36,37,38,40,41) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47) AND Mismatch Adjoining  Metals=(True);
-"Damage Mechanism -Dissimilar Metal Weld (DMW) Cracking "
-"Inspection Method - NDE-Visual Inspections, NDE-Liquid Penetrant. NDE-Ultrasonic Testing. NDE-Radiographic Testing. NDE-PMI "
-"Damage Appearance / Morphology - Cracks. Usually formed around the toe of the weld in the heat-affected zone"
-"Prevention -Proper Material Design (geometry and correct welding procedure ) "
-
-//(13) Thermal Shock
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,16,17,18, 28,29,30,31,32,33,34)  AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,36,37,39,42,43,44,45,46,47) AND temp>=1000 AND thermal cycle=true;
-"Damage Mechanism -Thermal Shock ."
-"Inspection Method - NDE-Liquid Penetrant. NDE-Magnetic Particle."
-"Damage Appearance / Morphology -Cracks initiating from the surface and may also appear as “craze” cracks."
-"Prevention -Proper Material Design. Proper Structural restraint design. IOW Monitoring to reduce process induced thermal variance"
-
-//(14) Erosion/Erosion – Corrosion
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,42,43,44,45,46,47);
-"Damage Mechanism - Erosion/Erosion – Corrosion"
-"Inspection Method -NDE-Visual Inspections,  NDE-Ultrasonic Testing. NDE-Radiographic Testing,  Infrared Scan Monitoring for Refractory thickness monitoring"
-"Damage Appearance / Morphology -  Localized loss in thickness in the form of pits, grooves, gullies, waves, rounded holes and valleys"
-"Prevention - Proper Material Design, Shape and Geometry of equipment"
-
-//(15) Cavitation
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,40,41) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47);
-"Damage Mechanism - Cavitation"
-"Inspection Method -NDE-Visual Inspections,  NDE-Ultrasonic Testing. NDE-Radiographic Testing "
-"Damage Appearance / Morphology - Sharp-edged pits or  gouges in rotational components"
-"Prevention - Proper Material Design and Operating Condition"
-
-//(16) Mechanical Fatigue
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,27,31,32,34,38,39) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47) AND ( Excessive Tensile stress =TRUE or Excessive Compressive Stress=True);
-"Damage Mechanism -Mechanical Fatigue"
-"Inspection Method - NDE-Visual inspections, NDE-Liquid Penetrant. NDE-Magnetic Particle. NDE-Ultrasonic Testing. Vibration monitoring. "
-"Damage Appearance / Morphology -Clam shell” type  fingerprint profile (concentric rings) on crack-line around Areas of stress concentration. "
-"Prevention -Proper Material Design. Proper Structural restraint design. IOW Monitoring"
-
-// (17) Vibration-Induced Fatigue
-if Equipment Type= (15,16,27,34,35,36,37,38,39) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47) AND  High Dynamic loading=True;
-"Damage Mechanism -  Vibration-Induced Fatigue "
-"Inspection Method - NDE-Visual inspections, Vibration monitoring. "
-"Damage Appearance / Morphology -Crack initiating at a point of high stress or discontinuity such as a thread or weld joint "
-"Prevention -Proper Process Design. Proper equipment structural Design and installation and the use of supports and vibration dampening equipment. IOW Monitoring"
-
-//(18) Refractory Degradation
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41) AND (Material Type=  (40) OR Refractory lined=True)  AND (temp >=1200  OR Sulphur Present=True);
-"Damage Mechanism -  Refractory Degradation "
-"Inspection Method - NDE-Visual inspections, Cold and hot IR Thermography Scans."
-"Damage Appearance / Morphology -Excessive cracking, spalling or lift-off from the substrate, softening or general degradation from exposure to moisture, thinning, anchor exposure "
-"Prevention -Proper Material Design: refractory, anchors and fillers and their proper design and installation, IOW Monitoring"
-
-//(19) Reheat Cracking
-if Equipment Type= (27,28,29,30,31,32,33) AND Material Type=  (6,7,8,9,10,11,12,13,14,15,16,19,21,22,23,24,27,28,29,30,31,32,33,44,47 )  AND temp > 750 AND thickness>=1 );
-"Damage Mechanism -  Reheat Cracking  "
-"Inspection Method -NDE-Visual Inspections, NDE-Liquid Penetrant. NDE-Ultrasonic Testing. NDE-Magnetic Particle, NDE-Time of Flight Diffraction TOFD"
-"Damage Appearance / Morphology - Intergranular cracking (Surface breaking or embedded depending on stress and geometry type). Welds /HAZ are particularly susceptible."
-"Prevention -Proper weld design.  Joint configurations in heavy wall sections should be designed to minimize restraint during welding and PWHT. Proper Welding preheat/interpass heat procedure."
-
-//(20) Gaseous Oxygen-Enhanced Ignition and Combustion
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33,39,41,43 ) AND >25% oxygen present=True ;
-"Damage Mechanism -  Gaseous Oxygen-Enhanced Ignition and Combustion"
-"Inspection Method -NDE-Visual Inspections. Backlights can be used to check for hydrocarbon contamination."
-"Damage Appearance / Morphology - Internal/ external fire damage. Component burn, such as a valve seat,  without kindling other materials and without any outward sign of fire damage"
-"Prevention -Proper Material Design. IOW Monitoring."
-
-//(21) Galvanic Corrosion
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33,39,42,43) AND -Mismatch Ajoining  Metals=true ;
-"Damage Mechanism -  Galvanic Corrosion"
-"Inspection Method -NDE-Visual Inspections. NDE-Ultrasonic Testing. "
-"Damage Appearance / Morphology - Generalized wall loss in thickness or crevice, groove or pitting corrosion."
-"Prevention -Proper Material Design and Coating / electric insulating Devices."
-
-//(22) Atmospheric Corrosion
-if Equipment Type= (14,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34,39) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,43,45) AND Ext Coating=False AND Temperature<250;
-"Damage Mechanism -  Atmospheric Corrosion"
-"Inspection Method -NDE-Visual Inspections. NDE-Ultrasonic Testing. "
-"Damage Appearance / Morphology - General or localized wall loss, depending upon whether or not the moisture is trapped."
-"Prevention -Proper Material Design. Anti corrosion / rust Coating."
-
-//(23) Corrosion Under Insulation
-if Equipment Type= (14,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34,39) AND Insulation=True  AND { (Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19) AND ( 10 <= temperature<= 350) ) OR (Material Type=  (26-33,42) AND ( 140 <= temperature<= 400)) }
-"Damage Mechanism -  Corrosion Under Insulation"
-"Inspection Method -NDE-Visual Inspections (Strip Insulation). NDE-Ultrasonic Testing (Guided wave UT).  NDE Real-time Profile x-ray (for small bore piping). NDE-Neutron backscatter techniques for identifying wet insulation. Deep penetrating eddy-current inspection.  IR thermography looking for wet insulation and/or damaged and missing insulation under
-the jacket. "
-"Damage Appearance / Morphology - Localized pitting corrosion and/or wall loss in CS. Stress Corrosion Cracks in SS"
-"Prevention -Proper Material Design. Anti corrosion / rust Coating. Maintaining the insulation/sealing/vapor barriers to prevent moisture ingress."
-
-// (24) Cooling Water Corrosion
-if Equipment Type= (16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,40) AND Material Type= (1-5,25-33,39,43,44,45,47) AND Water_service=true;
-"Damage Mechanism -  Cooling Water Corrosion "
-"Inspection Method -NDE-Visual Inspections. NDE-Ultrasonic Testing (Phased array). NDE- Radiography. NDE-Eddy-current inspection."
-"Damage Appearance / Morphology - Generalized / Localized wall loss in thickness or crevice, groove or pitting corrosion. Stress corrosion cracking and fouling "
-"Prevention -Proper Material Design. Operation and chemical treatment of cooling water systems; Monitoring of process  parameters that affect corrosion and fouling such as the pH, oxygen content, cycles of concentration, biocide residual, biological activity, cooling water outlet temperatures, hydrocarbon contamination and process leaks. "
-
-//(25) Boiler Water Condensate Corrosion
-if Equipment Type= (2,3,5,16,17,27,28,39) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33,45) AND Water_service=true;
-"Damage Mechanism -  Boiler Water Condensate Corrosion  "
-"Inspection Method -NDE-Visual Inspections. NDE-Magnetic Particle."
-"Damage Appearance / Morphology - Cracks, Localized Pitting corrosion."
-"Prevention -Proper Material Design. Oxygen scavenging treatments typically include catalyzed sodium sulfite or hydrazine depending on the system pressure level along with proper mechanical deaerator operation. Amine treatment to eliminate CO2 in condensate return systems. "
-
-// (26) CO2 Corrosion
-if Equipment Type= (2,3,5,16,20,21,22,27,28,39) AND Material Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19) AND Co2 present=True AND Temperature<=300 AND Water_service=true;
-"Damage Mechanism -  CO2 Corrosion "
-"Inspection Method -NDE-Visual Inspections. NDE-Ultrasonic Testing . NDE- Radiography."
-"Damage Appearance / Morphology -Localized thinning and/or pitting corrosion "
-"Prevention -Proper Material Design SS. Corrosion inhibitors to the condensate systems. Vapor phase inhibitors may be required to protect against condensing vapors. Increasing condensate pH above 6."
-
-//(27) Flue-Gas Dew-Point Corrosion
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,28,29,30,31,32,33) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33) AND { (Sulphur present=True AND Temperature<=280) OR (Chloride Present=True AND Temperature<=130) };
-Damage Mechanism - Flue-Gas Dew-Point Corrosion.
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography, NDE-Liquid Penetrant. NDE-Visual Inspections.
-Damage Appearance / Morphology -Localized thinning and/or pitting corrosion in CS. Surface breaking cracks with crazed surface appearance in SS.
-Prevention -Proper Material Design. Maintain the metallic surfaces temperature of the equipment backend above the sulfuric acid dewpoint corrosion temperature.
-
-// (28) Microbiologically Induced Corrosion (MIC)
-if Equipment Type= (16,17,18,23,24,25,26,27,28,29,30,31,32,33,34,38,39,40) AND Material Type=(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,25,27,28,29,30,31,32,33, 43,45,44,47) ;
-Damage Mechanism -  Microbiologically Induced Corrosion (MIC).
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography. NDE-Visual Inspections.
-Damage Appearance / Morphology -Localized pitting under deposits or tubercles shielding the organism.
-Prevention -Proper Material Design. Process Water treatment, high enough flow. Anti corrosion coating. Monitoring of process  parameters that affect MIC such as cycles of concentration, biocide residual, biological activity, cooling water outlet temperatures, hydrocarbon contamination.
-
-// (29) Soil Corrosion
-if Equipment Type= (23,24,25,26,27) AND Material Type=  (1,2,3,4,5,38,42) AND Buried/Soil-Air/Cemented=True ;
-Damage Mechanism -  Soil Corrosion.
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography. NDE-Visual Inspections, Soil potential and resistivity.
-Damage Appearance / Morphology -External thinning with localized losses due to pitting.
-Prevention -Proper Material Design. Use of special backfill, Cathodic protection. Anti corrosion coating.
-
-// (30) Caustic Corrosion
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,16,17,18,27,41) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33) AND Caustics Present=True;
-Damage Mechanism -   Caustic Corrosion.
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography. NDE-Visual Inspections.
-Damage Appearance / Morphology -Localized metal loss which may appear as grooves or locally thinned areas.
-Prevention -Proper Material Design. Reduce the amount of free caustic and Alkaline producing salts  in the system. Cleaning and maintenance of Burner Management System.
-
-// (31)  Dealloying. process:Cooling water application,  boiler feed water
-if Equipment Type= (16,27,38,39) AND Material Type=  (45,35,42).
-Damage Mechanism -   Dealloying.
-Inspection Method - NDE-Visual Inspections. Metallographic examination.
-Damage Appearance / Morphology -Significant color change or a deep etched (corroded) appearance.
-Prevention -Proper Material Design. Add balancing alloy for resistance.
-
-// (32)  Graphitic Corrosion. process:Dilute acids, mine water,salt water, soft water, Fire Water. Boiler feed water
-if Equipment Type= (27,) AND Material Type=  (42) AND temp<200 and (water-service=true OR acid-service=true);
-Damage Mechanism -   Graphitic Corrosion.
-Inspection Method - NDE-Acoustic techniques.
-Damage Appearance / Morphology -Local or general wall loss and affected areas soft and easily gouged mechanically using hand tool.
-Prevention -Proper Material Design. Internal and External coatings and/or cement linings. Cathodic protection. White Iron is not Susceptible.
-
-// (33)  Oxidation.  process: ANY
-if Equipment Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,27,28,29,30,31,32,33) AND Material Type (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,38,42,44,47 ) AND Temperature>=1000;
-Damage Mechanism -   Oxidation.
-Inspection Method - Real-time Instrument- Skin Thermocouple or Infrared Thermographic Scan Monitoring.
-Damage Appearance / Morphology -General wall loss-  thinning.
-Prevention -Proper Material Design. IOW Monitoring.
-
-// (34)  Sulfidation.  process: Crude,coke,sulphur, fuel gas, feed gas
-if Equipment Type= (1-13,16-18,27-33) AND Material Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,38,42,44,45,47) AND Temperature>=500 AND Sulphur Present=TRUE;
-Damage Mechanism -   Sulfidation.
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography. Real-time Instrument- Skin Thermocouple or Infrared Thermographic Scan Monitoring
-Damage Appearance / Morphology -Uniform thinning but can also occur as localized corrosion or high velocity erosion-corrosion.
-Prevention -Proper Material Design; High Chromium based alloys, Clad 300/400 SS, Alumunium Diffusion treatment.
-
-// (35)  Carburization.  process: Coke, ethylene pyrolysis
-if Equipment Type= (10,12,13) AND Material Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21,22,23,25,27,28,29,30,31,32,33,34,44,47) AND Temperature>=1100;
-Damage Mechanism -   Carburization.
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography. NDE- Magnetic Particle testing. Hardness Testing.  Eddy Current. Metallography.
-Damage Appearance / Morphology -At advanced stage, cracking or through wall.  Loss of ductility and increase in Hardness and ferromagnetism.
-Prevention -Proper Material Design. IOW Monitoring.
-
-//(36)  Decarburization.  process:
-if Equipment Type= (ANY) AND Material Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19) AND Temperature>=1100 AND hydrogen present:Yes;
-Damage Mechanism -   Decarburization.
-Inspection Method - NDE- Magnetic Particle testing. Hardness Testing. Metallography. Replication (FMR).
-Damage Appearance / Morphology -At advanced stage, cracking or through wall.  Loss of ductility and increase in Hardness and ferromagnetism.
-Prevention -Proper Material Design. IOW Monitoring.
-
-//(37)  Metal Dusting.  process:
-if Equipment Type= (10,12) AND Material Type= (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21,22,23,27,28,29,30,31,32,33,44,47) AND 900<=Temperature<=1500 AND (hydrogen present:Yes OR carbon present:yes)
-Damage Mechanism -  Metal Dusting.
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography. NDE- Visual Testing. Metal particles from dusting.
-Damage Appearance / Morphology -Pits filled with a crumbly residue of metal oxides and carbides.
-Prevention -Proper Material Design. Chemical injection (H2S)  and aluminium diffusion.
-
-// (38)  Fuel Ash Corrosion.  process: Fired heater, gas turbine with contaminants
-if Equipment Type= (1,4,6,10,11,12,13) AND Material Type=  (6,7,8,9,10,11,12,13,14,15,16,19,20) AND 700<=Temperature<=1130;
-Damage Mechanism -  Fuel Ash Corrosion.
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography. NDE- Visual Testing.
-Damage Appearance / Morphology -Metal loss associated with slagging.
-Prevention -Proper Material Design. Proper Burner Management maintenance program. Clean feed fuel source.
-
-//(39A)  Nitriding.  process: team methane-reformers, steam gas cracking (olefin plants) and ammonia synthesis plants.
-if Equipment Type= (ANY) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,25,27,28,29,30,31,32,33)  AND 600<=Temperature<900 AND (Nitrides Present=TRUE OR ammonia present=true OR cyanide=true);
-Damage Mechanism -  Moderate Nitriding
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography. NDE- Visual Testing. NDE- Liquid Penetrant testing
-Damage Appearance / Morphology -A change in surface color to a Dull, dark gray appearance.  Cracking at advnace stages. Preferential grain boundary nitriding may lead to microcracking and embrittlement. Stainless steels may form brittle layers that may crack and spall from thermal cycling or
-applied stress.
-Prevention -Proper Material Design. alloys with 30% to 80% nickel.
-
-// (39B)  Nitriding.  process:
-if Equipment Type= (ANY) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,25,27,28,29,30,31,32,33) AND Temperature>=900 AND (Nitrides Present=TRUE OR ammonia present=true OR cyanide=true);
-Damage Mechanism -  Severe Nitriding.
-Inspection Method - NDE-Ultrasonic Testing. NDE- Radiography. NDE- Visual Testing. NDE- Liquid Penetrant testing.
-Damage Appearance / Morphology -A change in surface color to a Dull, dark gray appearance.  Cracking at advnace stages. Preferential grain boundary nitriding may lead to microcracking and embrittlement.  Stainless steels may form brittle layers that may crack and spall from thermal cycling or
-applied stress.
-Prevention -Proper Material Design. alloys with 30% to 80% nickel "
-
-// (40)  Chloride Stress Corrosion Cracking (Cl-SCC). process:
-if Equipment Type= (13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,40,41) AND Material Type=  (26,27,28,29,30,31,32,33)  AND chlorides present=True AND temp>=140 AND excess tensile stress=true;
-Damage Mechanism -  Chloride Stress Corrosion Cracking (Cl-SCC)
-Inspection Method - NDE-Ultrasonic Testing.  NDE- Liquid Penetrant testing. NDE- Eddy Current
-Damage Appearance / Morphology -Cracks can popagate from process side or externally for Corrosion Under insulation
-Prevention -Proper Material Design. Hydrotest Medium with zero/low chloride content + immediate dry-out. CUI Coating. Remove residual stresses through Material Stress Relief &/OR PWHT
-
-// (41)   Corrosion Fatigue . process:
-if Equipment Type= (1,2,3,4,5,6,7,8,9,28,38) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,34,35,36,37,38,39,42,43,44,45,46,47) AND Cyclic loading=True;
-Damage Mechanism -   Corrosion Fatigue.
-Inspection Method - NDE-Ultrasonic Testing.  NDE- Visual Testing. NDE- Magnetic Particle.
-Damage Appearance / Morphology -Transgranular brittle cracks propagation of multiple parallel cracks.
-Prevention -Proper Material design. Material stress-relieving heat treatment (e.g. PWHT).  Anti Corrosion Coating.
-
-// (42)  Caustic Stress Corrosion Cracking (Caustic Embrittlement) . process:
-if Equipment Type= (1,6,27,41) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,27,28,29,30,31,32,33) AND Caustic Present=True,  AND PWHT=False AND Temperature>=150 AND (Excessive Tensile stress=True OR Excessive Compressive Stress=True OR  Cyclic loading=True);
-Damage Mechanism -   Caustic Stress Corrosion Cracking (Caustic Embrittlement).
-Inspection Method - NDE-Ultrasonic Testing UT/SWUT.  NDE- Visual Testing. NDE- Magnetic Particle. NDE- Eddy Current. Acoustic Emmision Testing for crack monitoring.
-Damage Appearance / Morphology -Weblike cracks propagating parallel to the weld & adjacent base metal. Cracks in the weld deposit or HAZ initiate from local stress raisers. Typically transgranular cracks in SS.
-Prevention -Proper Material design. Material stress-relieving heat treatment (e.g. PWHT).
-
-// (43)  Ammonia Stress Corrosion Cracking. Process:
-if Equipment Type= (16,41,24,25,26,27,15,35,36,37,38) AND Material Type=  (1,2,3,4,5,45) AND Ammonia Present=True;
-Damage Mechanism -   Ammonia Stress Corrosion Cracking .
-Inspection Method - NDE-Ultrasonic Testing UT/SWUT- TOFD.  NDE- Visual Testing. NDE- Magnetic Particle. NDE- Eddy Current. Acoustic Emmision Testing for crack monitoring.
-Damage Appearance / Morphology -Cracking can be either transgranular or intergranular depending on the environment and stress level. In base metal, or in/around welds/HAZ for non-PWWT Carbon steel.
-Prevention -Proper Material design (<70 ksi tensile strength). Proper welding + PWHT. Hardness Check for welds <=225 BHN. For CS, Add small quantity of Water  (+0.3% H20 stream). Monitor pH of Ammonia in Water. Prevent Air / oxygen ingress.
-
-//(44)   Liquid Metal Embrittlement / Cracking (LME/LMC)
-if Equipment Type= (4,11,18,24,26,28,29,30,32,33,34,35,38) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28,29,30,31,32,33,35,39,43,44,45,47) AND  (Molten zinc=true, OR Molten mercury=true, OR  Molten cadmium=true, OR  Molten lead=true, OR molten copper=true, OR tin=true OR fire/flame present=true) ;
-Damage Mechanism -   Liquid Metal Embrittlement (LME/LMC).
-Inspection Method -  NDE- Magnetic Particle. NDE- Eddy Current.  NDE-Liquid Penetrant testing. Metallography.
-Damage Appearance / Morphology -Brittle Cracking can be either transgranular or intergranular
-Prevention -LME/LMC can only be prevented by protecting metal substrates from coming into contact with the low melting metal.
-
-// (45)    Hydrogen Embrittlement (HE)
-if Equipment Type= (1,2,3,4,5,6,7,8,9,11,18,24,26,27,28,29,30,31,32,33,35,36,37,38) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19,21,22,23,24,25,35,44,47) AND 60<Temp<=300 AND (Hydrogen present=True OR cathodic protection=true);
-Damage Mechanism -    Hydrogen Embrittlement (HE).
-Inspection Method -  NDE- Magnetic Particle. NDE- Eddy Current.  NDE-Liquid Penetrant testing. NDE-Ultrasonic examination.
-Damage Appearance / Morphology -Sub-surface, or Surface cracking.
-Prevention -Proper material and welding design. Low hydrogen elctrodes. PWHT- stress Relief
-
-// (46)   Ethanol Stress Corrosion Cracking (SCC)
-if Equipment Type= (14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33) AND Material Type=  (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,19); tensile stress excesssive=true AND ethanol present=True;
- Inspection Method -  NDE- Magnetic Particle. NDE-Liquid Penetrant testing. NDE-Ultrasonic examination.
- Damage Appearance / Morphology -Cracks that are parallel to the weld or transverse to the weld.
- Prevention -Proper material and welding design. PWHT- stress Relief.
-
-//(47)   Sulfate Stress Corrosion Cracking. Process: Cooling Water
-if Equipment Type= (16) AND Material Type=  (45)  AND AND sulfate present=True and Years in service>=10  AND water-service=true;
-Damage Mechanism -  Sulfate Stress Corrosion Cracking
-Inspection Method -  NDE- Visual Testing. NDE- Eddy Current. NDE-Liquid Penetrant testing.
-Damage Appearance / Morphology -Surface Cracks. single or highly branched transgranular.
-Prevention -Proper material and welding design. Periodic cleaning.
-
-END OF ADDITIONAL LOGIC*/
+    /* 66 Titanium Hydriding */
+    if (in_array((int)$data['material-type'], [39]) && in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]) &&
+        $data['temperature-max-of-process-or-skin'] > 165 && (isset($data['H2S-present']) && $data['temperature-max-of-process-or-skin'] > 165) ||
+        isset($data['amine-service']) || isset($data['acidic-sour-water-service/present']) || isset($data['mismatch-ajoining-metals']) ||
+        (isset($data['hydrogen-present']) && $data['temperature-max-of-process-or-skin'] > 350)
+    ) {
+        $correctedInputs = 0;
+        if (in_array((int)$data['material-type'], [39]))
+            $correctedInputs++;
+        if (in_array((int)$data['equipment-type'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]))
+            $correctedInputs++;
+        if ($data['temperature-max-of-process-or-skin'] > 165)
+            $correctedInputs++;
+        if (isset($data['H2S-present']))
+            $correctedInputs++;
+        if (isset($data['amine-service']))
+            $correctedInputs++;
+        if (isset($data['acidic-sour-water-service/present']))
+            $correctedInputs++;
+        if (isset($data['mismatch-ajoining-metals']))
+            $correctedInputs++;
+        if (isset($data['hydrogen-present']))
+            $correctedInputs++;
+        $desc = array(
+            'Appearance or Morphology of Damage' =>
+                array('Embrittlement of metal which may lead to cracking.'
+                ), 'Inspection Method' =>
+                array('Metallurgical techniques or mechanical Hardness testing.', ' NDE-Eddy Current.'
+                ), 'Prevention' =>
+                array('Proper Material and welding design.', 'Use alloy steels with chromium and molybdenum', 'Maintain strict IOWs.'
+                ));
+        $output[] = [
+            'output' => 'Titanium Hydriding',
+            'correctedInputs' => $correctedInputs,
+            'Desc' => $desc
+        ];
+        if ($maximumCorrectedInputs < $correctedInputs)
+            $maximumCorrectedInputs = $correctedInputs;
+        unset($desc);
+        unset($correctedInputs);
+    }
 
     $response['outputs'] = $output;
     $response['outputFomat'] = $outputFormat;
