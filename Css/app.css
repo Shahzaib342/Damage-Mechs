@@ -1,3 +1,6 @@
+.container {
+  z-index: 9999;
+}
 .container .left-tile {
   margin-top: 10px;
 }
@@ -13,6 +16,9 @@
 }
 .container .left-tile .tile.is-vertical .tile.is-parent {
   padding-right: 0;
+}
+.container .left-tile .tile.is-vertical .tile.is-parent .subtitle {
+  color: black;
 }
 .container .left-tile .tile.is-vertical .tile.is-parent .content .dropdown-columns .control {
   display: flex;

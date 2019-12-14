@@ -2,6 +2,7 @@
 @import "_variables"
 
 .container
+  z-index: 9999
   .left-tile
     margin-top: 10px
     @media only screen and (max-width: $breakpoint-mini-screen)
@@ -13,6 +14,8 @@
 
       .tile.is-parent
         padding-right: $pr-0
+        .subtitle
+          color: black
 
         .content
           .dropdown-columns
