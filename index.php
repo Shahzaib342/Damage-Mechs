@@ -8,7 +8,6 @@
     <script defer src="Js/jquery.min.js"></script>
     <script defer src="Js/app.js"></script>
     <script src="https://use.fontawesome.com/5b17aee48f.js"></script>
-    <link href="css/style.css" rel="stylesheet"/>
 </head>
 <body>
 <nav class="navbar is-black" role="navigation" aria-label="main navigation">

@@ -124,21 +124,16 @@
   font-size: 12px;
   display: block;
 }
-.container .right-tile .content .content .inputs-section ul {
+.container .right-tile .content .content ul {
   font-size: 12px;
   margin-left: 1em;
 }
-.container .right-tile .content .content .inputs-section ul .output-titles {
+.container .right-tile .content .content ul .output-titles {
   font-weight: bold;
   font-style: italic;
 }
 .container .right-tile .content .content .active {
   background-color: #555;
-}
-
-.main-footer.login {
-  width: 100%;
-  bottom: 0;
 }
 
 /*# sourceMappingURL=app.css.map */
