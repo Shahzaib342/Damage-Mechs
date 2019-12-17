@@ -17,7 +17,6 @@ header {
 /* ------------------------------------ */
 header input {
     display: block;
-    padding: 5px;
     width: 100%;
 
 }
@@ -231,10 +230,11 @@ input#search {
 }
 
 .fa-search {
+    position: absolute;
+    top: 0;
     padding: 6px;
     color: #fff;
     font-size: 30px;
-    margin-top: 3px;
 }
 
 @media screen and (max-width: 768px) {

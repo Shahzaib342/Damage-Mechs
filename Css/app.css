@@ -46,6 +46,12 @@
 .container .left-tile .tile.is-vertical .tile.is-parent .content .multi-select-dropdowns, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-design, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-stresses-and-loads {
   width: 845px;
 }
+.container .left-tile .tile.is-vertical .tile.is-parent .content .multi-select-dropdowns .dropdown-main, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-design .dropdown-main, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-stresses-and-loads .dropdown-main {
+  font-size: 0.8em;
+}
+.container .left-tile .tile.is-vertical .tile.is-parent .content .multi-select-dropdowns .dropdown-chose-list, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-design .dropdown-chose-list, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-stresses-and-loads .dropdown-chose-list {
+  font-size: 0.8em;
+}
 @media only screen and (max-width: 600px) {
   .container .left-tile .tile.is-vertical .tile.is-parent .content .multi-select-dropdowns, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-design, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-stresses-and-loads {
     width: 100%;
@@ -141,9 +147,11 @@
 .container .right-tile .content .content .inputs-section label {
   font-weight: bold;
   margin-bottom: 0;
+  font-style: italic;
+  font-size: 12px;
 }
 .container .right-tile .content .content .inputs-section span {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: normal;
 }
 .container .right-tile .content .content .inputs-section .title {
