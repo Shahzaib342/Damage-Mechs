@@ -1,0 +1,238 @@
+html, body {
+    font-family: 'Roboto', sans-serif
+}
+
+header {
+    position: absolute;
+    z-index: 999999999999999999999;
+    top: 0;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+/* ------------------------------------ */
+header input {
+    display: block;
+    padding: 5px;
+    width: 100%;
+
+}
+
+header .top-row {
+    height: 52px;
+    background-color: #283e4a;
+    padding: 0 2%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    border-bottom: 1px solid #fff;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+header .top-row.sticky {
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    background-color: #283e4a;
+}
+
+header .top-row.sticky .header-menu img {
+    max-width: 26px;
+    padding: 12px 0;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+header .top-row.sticky .logo img {
+    max-width: 140px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+header .top-row.sticky .header-title h2 {
+    font-size: 20px !important;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+header .top-row.sticky .select2-selection__rendered {
+    padding-top: 0;
+}
+
+header .top-row.sticky .select2-container .select2-selection--single {
+    height: 30px;
+}
+
+header .top-row.sticky .select2-container--default .select2-selection--single .select2-selection__arrow b {
+    margin-top: -6px;
+    left: -20px;
+}
+
+header .top-row.sticky .search-icon {
+    padding: 1px 3% 0px;
+}
+
+header .top-row.sticky .search-icon img {
+    width: 16px;
+}
+
+header .top-row.sticky .login-user img {
+    max-width: 25px;
+}
+
+.logo {
+    width: 20%;
+}
+
+.logo img {
+    max-width: 140px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.login-user {
+    width: 8%;
+    position: relative;
+    cursor: pointer;
+    text-align: right;
+}
+
+.user-img {
+    display: inline-block;
+    padding: 10px;
+}
+
+.login-user img {
+    max-width: 70px;
+}
+
+.sub-dropdown-menu {
+    position: absolute;
+    background-color: #CCC;
+    padding: 15px;
+    color: #000;
+    min-width: 250px;
+    right: -20px;
+    z-index: 9;
+    box-shadow: 0px 2px 14px 5px rgba(0, 0, 0, 0.1);
+    visibility: hidden;
+    opacity: 0;
+    transform-origin: 50% 0;
+    transform: scaleY(0) translateZ(0);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+
+}
+
+.login-user:hover .sub-dropdown-menu, .header-menu:hover .sub-dropdown-menu {
+    visibility: visible;
+    opacity: 1;
+    transform: scaleY(1) translateZ(0);
+}
+
+.sub-dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin: 0;
+    font-size: 14px;
+}
+
+.sub-dropdown-menu ul a {
+    color: #000;
+}
+
+.inline-block {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.header-menu {
+    padding: 15px 0;
+    width: 5%;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.header-menu img {
+    max-width: 32px;
+    padding: 31px 0;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.main-menu {
+    min-width: 300px;
+    left: 0;
+}
+
+.header-title h2 {
+    color: #fff;
+    margin-bottom: 0;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    font-size: 20px !important;
+}
+
+.header-title {
+    width: 42%;
+    text-align: center;
+}
+
+.header-dropdown {
+    width: 24%;
+    font-size: larger;
+    position: relative;
+}
+
+.search-icon {
+    font-size: 18px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding: 7px 8px 8px;
+    z-index: -1;
+}
+
+.header-dropdown select {
+    color: #fff;
+    display: block;
+    width: 100%;
+    border: 2px solid #fff;
+    background-color: #283e4a;
+    padding: 5px 10px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.fa-bars {
+    color: #fff;
+    font-size: 20px;
+}
+
+.sub-dropdown-menu.main-menu {
+    margin: 15px;
+}
+
+input#search {
+    padding-left: 50px;
+    width: 88%;
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid;
+    border-color: #e4e4e4;
+    border-radius: 5px;
+}
+
+.fa-search {
+    padding: 6px;
+    color: #fff;
+    font-size: 30px;
+    margin-top: 3px;
+}

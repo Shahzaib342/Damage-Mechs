@@ -1,5 +1,6 @@
 .container {
   z-index: 9999;
+  margin-top: 52px;
 }
 .container .left-tile {
   margin-top: 10px;
