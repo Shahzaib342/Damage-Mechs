@@ -11,6 +11,7 @@ function openCity(evt, cityName) {
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+
 $(document).ready(function () {
     $(".login-form button.custom-stl").click(function (e) {
         e.preventDefault();
@@ -29,8 +30,6 @@ $(document).ready(function () {
             $('header .top-row').removeClass("sticky");
         }
     });
-
-    $('select').select2();
 
     $('#nav-icon1,#nav-icon2,#nav-icon3,#nav-icon4,.header-menu').mouseover(function () {
         $("#nav-icon4").addClass('open');

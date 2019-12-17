@@ -5,15 +5,39 @@ $(document).ready(function () {
     //submit form data in ajax and then create output/ranking section based on the response
     $('form').submit(function (event) {
         event.preventDefault();
+
+        var group_main_service = [];
+        var system_design = [];
+        var system_stresses_and_loads = [];
+        $(".select.process-main-service-or-additive span.dropdown-selected").each(function (index) {
+            group_main_service.push(
+                $(this).find('i').attr('data-id')
+            );
+        });
+        $(".system-design span.dropdown-selected").each(function (index) {
+            system_design.push(
+                $(this).find('i').attr('data-id')
+            );
+        });
+        $(".system-stresses-and-loads span.dropdown-selected").each(function (index) {
+            system_stresses_and_loads.push(
+                $(this).find('i').attr('data-id')
+            );
+        });
+        var data = $('form#form-data').serializeArray();
+        data.push({name: 'group_main_service', value: group_main_service});
+        data.push({name: 'system_design', value: system_design});
+        data.push({name: 'system_stresses_and_loads', value: system_stresses_and_loads});
         $.ajax({
             url: 'Controller.php',
             type: 'post',
-            data: $('form#form-data').serialize(),
+            data: data,
             dataType: 'json',
             success: function (data) {
                 // ... show output and ranked based on highest number of true probability
                 if (data.output.outputs.length < 1) {
-                    $('.right-tile .content .content').empty().append('<span> No data </span>');
+                    $('.right-tile .content .content .output-section').empty().append('<span> NA </span>');
+                    return false;
                 } else {
                     singleLineArray = [];
                     maximumCorrectedInputs = data.output.maximumCorrectedInputs;
@@ -29,10 +53,8 @@ $(document).ready(function () {
                     singleLineArray.sort(function (a, b) {
                         return a.correctedInputs > b.correctedInputs ? -1 : 1
                     });
-                    var html = '<div class="inputs-section">\n' +
-                        '                        <span class="title">Inputs</span>\n' +
-                        '                        <span class="inputs-data">' + data.output.outputFomat + '</span>\n' +
-                        '                    </div>';
+                    $('.inputs-section').empty().append(data.inputs);
+                    var html = '';
                     //create and append output html to display on output section
                     $.each(singleLineArray, function (index, val) {
                         var percentage = (val.correctedInputs / maximumCorrectedInputs) * 100;
@@ -52,7 +74,7 @@ $(document).ready(function () {
                         });
                         html += '</ul></div>';
                     });
-                    $('.right-tile .content .content').empty().append(html);
+                    $('.right-tile .content .content .output-section').empty().append(html);
                     app.addCollapsibleEvent();
                 }
             }
@@ -111,6 +133,11 @@ $(document).ready(function () {
         'Alloy C276',
         'Alloy 20'
     ];
+
+    $('.process-main-service-or-additive').dropdown({});
+    $('.system-design').dropdown({});
+    $('.system-stresses-and-loads').dropdown({});
+
 
     var materialTypeOptions = '';
     $.each(materialTypes, function (index, value) {

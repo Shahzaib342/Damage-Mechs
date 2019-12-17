@@ -341,6 +341,11 @@ header .top-row.sticky .login-user img {
     border-bottom: 1px solid #fff;
 }
 
+.main-footer.login {
+    width: 100%;
+    bottom: 0;
+}
+
 .tool-container {
     text-align: center;
 }
