@@ -34,6 +34,9 @@
   font-size: 0.8em;
   width: 100%;
 }
+.container .left-tile .tile.is-vertical .tile.is-parent .content .dropdown-columns .control .dropdown-multiple:not(.is-multiple):not(.is-loading)::after {
+  display: none;
+}
 .container .left-tile .tile.is-vertical .tile.is-parent .content input {
   font-size: 0.8em;
 }
