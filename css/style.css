@@ -192,4 +192,8 @@ footer.main-footer a {
     .footer-modal img {
         width: calc(100% - 20px);
     }
+
+    .main-footer.login {
+        width: 171%;
+    }
 }

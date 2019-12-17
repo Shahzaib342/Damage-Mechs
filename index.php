@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>DM Simulator</title>
-
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <link rel="stylesheet" href="Css/bulma.min.css">
     <link rel="stylesheet" href="Css/app.css">
     <!--    for footer and header styles-->

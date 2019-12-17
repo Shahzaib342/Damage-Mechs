@@ -12,7 +12,7 @@
 }
 @media only screen and (max-width: 600px) {
   .container .left-tile .tile.is-vertical {
-    width: 100%;
+    width: 170%;
   }
 }
 .container .left-tile .tile.is-vertical .tile.is-parent {
@@ -95,6 +95,12 @@
 
 .container .right-tile {
   padding-left: 0;
+}
+@media only screen and (max-width: 600px) {
+  .container .right-tile {
+    width: 170%;
+    padding: 0.75rem;
+  }
 }
 .container .right-tile .content .content .progress {
   margin-bottom: 0;
