@@ -7,7 +7,7 @@ if (isset($_POST['token'])) {
     $group_main_service = explode(",", $data['group_main_service']);
     $system_design = explode(",", $data['system_design']);
     $system_stresses_and_loads = explode(",", $data['system_stresses_and_loads']);
-    $inputs = '<span class="title">Inputs</span>';
+    $inputs = '';
 
     if ($data['material-type'] != '') {
         $inputs .= '<label>Material Type: </label>';
@@ -33,23 +33,24 @@ if (isset($_POST['token'])) {
         $inputs .= '<label>Pressure: </label>';
         $inputs .= '<span>' . $data['internal-pressure'] . '</span>';
     }
-
     if (count($group_main_service) > 0) {
-        $inputs .= '</br><label>Process – Main Service OR Additive(s):  </label>';
+        $inputs .= '<label>Process – Main Service OR Additive(s):  </label>';
         foreach ($group_main_service as $value) {
             $inputs .= '<span>' . $value . ', </span>';
         }
+        $inputs .= '</br>';
     }
 
     if (count($system_design) > 0) {
-        $inputs .= '</br><label>System Design:  </label>';
+        $inputs .= '<label>System Design:  </label>';
         foreach ($system_design as $value) {
             $inputs .= '<span>' . $value . ', </span>';
         }
+        $inputs .= '</br>';
     }
 
     if (count($system_stresses_and_loads) > 0) {
-        $inputs .= '</br><label>System Stresses & Loads:  </label>';
+        $inputs .= '<label>System Stresses & Loads:  </label>';
         foreach ($system_stresses_and_loads as $value) {
             $inputs .= '<span>' . $value . ', </span>';
         }
