@@ -13,8 +13,8 @@
                                     <label class="label">Material Type</label>
                                     <div class="control">
                                         <div class="select">
-                                            <select id="material-type" name="material-type">
-                                                <option value="0">Select Material Type</option>
+                                            <select id="material-type" name="material-type" required>
+                                                <option value="">Select Material Type</option>
                                             </select>
                                         </div>
                                     </div>
@@ -25,8 +25,8 @@
                                     <label class="label">Equipment Type</label>
                                     <div class="control">
                                         <div class="select">
-                                            <select id="equipment-type" name="equipment-type">
-                                                <option value="0">Select Equipment Type</option>
+                                            <select id="equipment-type" name="equipment-type" required>
+                                                <option value="">Select Equipment Type</option>
                                             </select>
                                         </div>
                                     </div>
@@ -39,7 +39,7 @@
                                     <label class="label">Years in service</label>
                                     <div class="control">
                                         <input class="input" type="text" placeholder="Years in service"
-                                               name="years-in-service">
+                                               name="years-in-service" required>
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                     <label class="label">Thickness(Inches)</label>
                                     <div class="control">
                                         <input class="input" type="text" required placeholder="Thickness(Inches)"
-                                               name="thickness">
+                                               name="thickness" required>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                                     <label class="label">Internal Pressure</label>
                                     <div class="control">
                                         <input class="input" type="text" placeholder="Internal Pressure"
-                                               name="internal-pressure">
+                                               name="internal-pressure" required>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                     <div class="control">
                                         <input class="input" type="number"
                                                placeholder="Temperature (Max of Process/Skin) in fahrenheit"
-                                               name="temperature-max-of-process-or-skin">
+                                               name="temperature-max-of-process-or-skin" required>
                                     </div>
                                 </div>
                             </div>

@@ -25,7 +25,7 @@
 </head>
 <body>
 <?php include_once 'header.html'; ?>
-<div class="container">
+<div class="container bulma-container">
     <?php include 'Templates/left-tile-section.php'; ?>
     <?php include 'Templates/right-tile-section.php'; ?>
 </div>

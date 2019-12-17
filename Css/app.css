@@ -1,6 +1,8 @@
 .container {
   z-index: 9999;
   margin-top: 52px;
+  margin-bottom: 100px;
+  max-width: fit-content !important;
 }
 .container .left-tile {
   margin-top: 10px;
@@ -42,7 +44,7 @@
   font-size: 0.8em;
 }
 .container .left-tile .tile.is-vertical .tile.is-parent .content .multi-select-dropdowns, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-design, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-stresses-and-loads {
-  width: 700px;
+  width: 845px;
 }
 @media only screen and (max-width: 600px) {
   .container .left-tile .tile.is-vertical .tile.is-parent .content .multi-select-dropdowns, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-design, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-stresses-and-loads {
