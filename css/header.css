@@ -239,6 +239,11 @@ input#search {
 
 @media screen and (max-width: 768px) {
     .header-title h2 {
-        font-size: 12px!important;
+        font-size: 6px!important;
+        top: 20px;
+        float: right;
+    }
+    input#search {
+        float: right;
     }
 }
