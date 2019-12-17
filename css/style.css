@@ -172,7 +172,6 @@ footer.main-footer a {
     .footer-social {
         position: initial;
     }
-
     .copyrights {
         display: block;
     }
@@ -194,6 +193,6 @@ footer.main-footer a {
     }
 
     .main-footer.login {
-        width: 171%;
+        width: 100%;
     }
 }
