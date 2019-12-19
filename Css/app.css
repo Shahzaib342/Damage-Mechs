@@ -47,10 +47,10 @@
   width: 845px;
 }
 .container .left-tile .tile.is-vertical .tile.is-parent .content .multi-select-dropdowns .dropdown-main, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-design .dropdown-main, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-stresses-and-loads .dropdown-main {
-  font-size: 0.8em;
+  font-size: 1em;
 }
 .container .left-tile .tile.is-vertical .tile.is-parent .content .multi-select-dropdowns .dropdown-chose-list, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-design .dropdown-chose-list, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-stresses-and-loads .dropdown-chose-list {
-  font-size: 0.8em;
+  font-size: 1em;
 }
 @media only screen and (max-width: 600px) {
   .container .left-tile .tile.is-vertical .tile.is-parent .content .multi-select-dropdowns, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-design, .container .left-tile .tile.is-vertical .tile.is-parent .content .system-stresses-and-loads {

@@ -81,8 +81,7 @@
                                     <div class="control">
                                         <div class="select process-main-service-or-additive">
                                             <select name="process-main-service-or-additive" style="display: none"
-                                                    multiple>
-                                                <option value="0">Please select</option>
+                                                    multiple placeholder="Please select">
                                                 <option value="DEA/MDEA-service/present">Diethanolamine (DEA/MDEA) service/present</option>
                                                 <option value="25-percent-Oxygen-process"> > 25% oxygen In process</option>
                                                 <option value="acid-service">Acid service (General)</option>
@@ -123,8 +122,7 @@
                                     <label class="label">System Design</label>
                                     <div class="control">
                                         <div class="select system-design">
-                                            <select name="system-design" style="display: none" multiple>
-                                                <option value="0">Please select</option>
+                                            <select name="system-design" style="display: none" multiple placeholder="Please select">
                                                 <option value="buried-soil-air-cemented-equipment">Buried/soil/air/cemented Equipment</option>
                                                 <option value="cathodic-protected-equipment"> Cathodic Protected Equipment</option>
                                                 <option value="ext-coating-anti-corrosion">Ext-Coating (Anti-corrosion)</option>
@@ -151,8 +149,7 @@
                                     <div class="control">
                                         <div class="select system-stresses-and-loads">
                                             <select name="select system-stresses-and-loads" style="display: none"
-                                                    multiple>
-                                                <option value="0">Please select</option>
+                                                    multiple placeholder="Please select">
                                                 <option value="applied-induced-stress">Applied Induced stress</option>
                                                 <option value="cyclic-induced-loading"> Cyclic Induced loading</option>
                                                 <option value="compressive-induced-stress">Compressive Induced stress</option>

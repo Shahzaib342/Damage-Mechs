@@ -33,26 +33,36 @@ if (isset($_POST['token'])) {
         $inputs .= '<label>Pressure: </label>';
         $inputs .= '<span>' . $data['internal-pressure'] . '</span>';
     }
-    if (count($group_main_service) > 0) {
+    $inputs .= '</br>';
+    if (count($group_main_service) > 0 && $group_main_service[0] != '') {
         $inputs .= '<label>Process – Main Service OR Additive(s):  </label>';
-        foreach ($group_main_service as $value) {
-            $inputs .= '<span>' . $value . ', </span>';
+        foreach ($group_main_service as $index => $value) {
+            if (count($group_main_service) < $index)
+                $inputs .= '<span>' . $value . ', </span>';
+            else
+                $inputs .= '<span>' . $value . '.</span>';
         }
         $inputs .= '</br>';
     }
 
-    if (count($system_design) > 0) {
+    if (count($system_design) > 0 && $system_design[0] != '') {
         $inputs .= '<label>System Design:  </label>';
-        foreach ($system_design as $value) {
-            $inputs .= '<span>' . $value . ', </span>';
+        foreach ($system_design as $index => $value) {
+            if (count($system_design) < $index)
+                $inputs .= '<span>' . $value . ', </span>';
+            else
+                $inputs .= '<span>' . $value . '.</span>';
         }
         $inputs .= '</br>';
     }
 
-    if (count($system_stresses_and_loads) > 0) {
+    if (count($system_stresses_and_loads) > 0 && $system_stresses_and_loads[0] != '') {
         $inputs .= '<label>System Stresses & Loads:  </label>';
-        foreach ($system_stresses_and_loads as $value) {
-            $inputs .= '<span>' . $value . ', </span>';
+        foreach ($system_stresses_and_loads as $index => $value) {
+            if (count($system_stresses_and_loads) < $index)
+                $inputs .= '<span>' . $value . ', </span>';
+            else
+                $inputs .= '<span>' . $value . '.</span>';
         }
     }
 }
